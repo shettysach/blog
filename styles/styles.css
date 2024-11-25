@@ -48,13 +48,10 @@ header {
 }
 
 @media (max-width: 768px) {
-  :root {
-    --horizontal-gap: 2rem;
-  }
-
   header,
   main {
-    padding: 1rem var(--horizontal-gap);
+    padding: 1rem 1rem;
+    font-size: 1rem;
   }
 }
 

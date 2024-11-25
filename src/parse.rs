@@ -30,9 +30,9 @@ fn process_articles<P: AsRef<Path> + Display>(input_dir: P, output_dir: P) -> St
         .filter_map(|article| {
             let article_path = article.path();
             let is_markdown = article_path.extension() == Some("md".as_ref());
-            let is_not_index = article_path.file_stem() != Some("index".as_ref());
+            let is_index = article_path.file_stem() == Some("index".as_ref());
 
-            (is_markdown && is_not_index).then_some(article_path)
+            (is_markdown && !is_index).then_some(article_path)
         })
         .map(|article_path| {
             let article_name = article_path.file_stem().unwrap().to_string_lossy();
@@ -48,10 +48,9 @@ fn process_articles<P: AsRef<Path> + Display>(input_dir: P, output_dir: P) -> St
                 article_name, article_name
             )
         })
-        .collect::<Vec<String>>()
-        .join("\n");
+        .collect::<Vec<String>>();
 
-    format!("<h2>Articles</h2>\n{}\n</ul>", article_list)
+    format!("<h2>Articles</h2>\n{}\n</ul>", article_list.join("\n"))
 }
 
 pub(crate) fn process_index<P: AsRef<Path> + Display + Copy>(input_dir: P, output_dir: P) {
