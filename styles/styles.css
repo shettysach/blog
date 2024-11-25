@@ -1,0 +1,144 @@
+@import url("https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap");
+
+:root {
+  --light-bg: #24283b;
+  --dark-bg: #1a1b26;
+  --light-text: #c0caf5;
+  --link-color: #7aa2f7;
+  --head-color: #7dcfff;
+  --horizontal-gap: 15rem;
+}
+
+body {
+  font-family: "Work Sans", sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: var(--dark-bg);
+  color: var(--light-text);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1;
+  padding: 1rem var(--horizontal-gap);
+  position: sticky;
+}
+
+a {
+  color: var(--link-color);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+header {
+  background: var(--light-bg);
+  color: var(--light-text);
+  padding: 2rem var(--horizontal-gap);
+  position: sticky;
+  z-index: 1000;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+  font-size: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --horizontal-gap: 2rem;
+  }
+
+  header,
+  main {
+    padding: 1rem var(--horizontal-gap);
+  }
+}
+
+header nav {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+
+  background: var(--light-bg);
+  /*background: linear-gradient(to right, #bb9af7, #2ac3de);*/
+  /*-webkit-background-clip: text;*/
+  /*-webkit-text-fill-color: transparent;*/
+}
+
+header nav ul {
+  list-style: none;
+  margin: 0;
+  display: flex;
+  gap: 2rem;
+}
+
+header nav ul li {
+  display: inline;
+}
+
+footer {
+  background: var(--light-bg);
+  color: var(--light-text);
+  text-align: center;
+  font-size: 0.8rem; /* Reduce font size */
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.3);
+}
+
+footer a {
+  color: var(--link-color);
+}
+
+section {
+  margin-bottom: 2rem;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: "Crimson Pro", serif;
+  color: var(--head-color);
+  margin-bottom: 1rem;
+}
+
+p {
+  line-height: 1.6;
+  color: var(--light-text);
+  margin-bottom: 1.5rem;
+}
+
+pre {
+  font-family: "JetBrains Mono", monospace;
+  background-color: var(--light-bg);
+  color: var(--head-color);
+  padding: 10px;
+  line-height: 1.5;
+  box-sizing: border-box;
+  overflow-x: auto;
+  white-space: pre;
+}
+
+code {
+  font-family: "JetBrains Mono", monospace;
+  color: var(--head-color);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+p code,
+span code {
+  white-space: nowrap;
+  display: inline;
+  font-size: 0.9em;
+}
+
+pre code {
+  white-space: pre;
+  display: block;
+  padding: 0;
+  background: inherit;
+  box-shadow: none;
+}
