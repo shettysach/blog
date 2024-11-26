@@ -1,10 +1,12 @@
-mod parse;
-use parse::*;
+mod generate;
+use std::io;
 
-fn main() {
-    let input_dir = "markdown";
-    let output_dir = "_site/";
+fn main() -> io::Result<()> {
+    let markdown_dir = "markdown";
+    let styles_path = "styles/styles.css";
+    let output_dir = "_site";
 
-    std::fs::create_dir_all(output_dir).expect("Failed to create output directory");
-    process_index(input_dir, output_dir);
+    generate::static_pages(markdown_dir, styles_path, output_dir)?;
+
+    Ok(())
 }

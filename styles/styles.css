@@ -137,15 +137,20 @@ pre code {
 
 ul,
 ol {
-  list-style-position: inside;
+  list-style-position: outside;
   padding-left: 0;
-  margin-left: 0;
+  margin-left: 1rem;
 }
 
 ul ul,
 ol ol,
 ul ol,
 ol ul {
+  list-style-position: outside;
   padding-left: 0rem;
   margin-left: 1rem;
+}
+
+li {
+  padding-left: 0.5rem;
 }
