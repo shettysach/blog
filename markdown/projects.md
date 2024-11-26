@@ -1,10 +1,12 @@
 # Projects
 
+These are some of my personal projects.
+
 ---
 
 ## veNum
 
-[[repo]](https://github.com/shettysach/veNum) 
+[[repo]](https://github.com/shettysach/veNum)
 
 ```
                __
@@ -12,7 +14,6 @@ __   _____  /\ \ \_   _ _ __ ___
 \ \ / / _ \/  \/ / | | | '_ ` _ \
  \ V /  __/ /\  /| |_| | | | | | |
   \_/ \___\_\ \/  \__,_|_| |_| |_|
-
 ```
 
 - Stands for vectorized N-dimensional numerical arrays.
@@ -123,27 +124,29 @@ __   _____  /\ \ \_   _ _ __ ___
 - conda, jupyter
 
 ---
-## Termfolio 
+
+## Termfolio
 
 [[repo]](https://github.com/shettysach/Termfolio)
 [[page]](https://shettysach.github.io/Termfolio)
 
 ```
- _____________  __  ___________  __   ________ 
+ _____________  __  ___________  __   ________
 /_  __/ __/ _ \/  |/  / __/ __ \/ /  /  _/ __ \
  / / / _// , _/ /|_/ / _// /_/ / /___/ // /_/ /
-/_/ /___/_/|_/_/  /_/_/  \____/____/___/\____/ 
+/_/ /___/_/|_/_/  /_/_/  \____/____/___/\____/
 ```
-     
 
 - Terminal style portfolio website, built using the Leptos framework, for Rust WASM.
 - Customizable and configurable using JSON.
 - Work in progress
 
-### Languages: 
+### Languages:
+
 - Rust
 - HTML, CSS
 
-### Crates: 
+### Crates:
+
 - leptos, leptos-use
 - tokio, reqwest

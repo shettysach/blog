@@ -50,7 +50,7 @@ fn process_articles<P: AsRef<Path> + Display>(input_dir: P, output_dir: P) -> St
         })
         .collect::<Vec<String>>();
 
-    format!("<h2>Articles</h2>\n{}\n</ul>", article_list.join("\n"))
+    format!("<h2>Articles</h2><ul>\n{}\n</ul>", article_list.join("\n"))
 }
 
 pub(crate) fn process_index<P: AsRef<Path> + Display + Copy>(input_dir: P, output_dir: P) {
