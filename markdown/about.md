@@ -17,12 +17,12 @@
 - C
 - C++
 
-## Languages I want to learn
+## Languages I am interested in
 
-- Haskell
 - OCaml
+- Haskell
 - Zig
 
 ## Current OS
 
-❄️ NixOS and ƒ Fedora
+❄️ NixOS

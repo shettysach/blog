@@ -8,6 +8,7 @@
   --light-text: #c0caf5;
   --link-color: #7aa2f7;
   --head-color: #7dcfff;
+  --mono-color: #2ac3de;
   --horizontal-gap: 15rem;
 }
 
@@ -26,6 +27,7 @@ main {
   flex: 1;
   padding: 1rem var(--horizontal-gap);
   position: sticky;
+  line-height: 1.5;
 }
 
 a {
@@ -43,7 +45,7 @@ header {
   padding: 2rem var(--horizontal-gap);
   position: sticky;
   z-index: 1000;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
 }
 
 @media (max-width: 768px) {
@@ -80,11 +82,6 @@ footer {
   background: var(--light-bg);
   color: var(--light-text);
   text-align: center;
-  font-size: 0.8rem; /* Reduce font size */
-}
-
-footer a {
-  color: var(--link-color);
 }
 
 section {
@@ -101,7 +98,6 @@ h4 {
 }
 
 p {
-  line-height: 1.6;
   color: var(--light-text);
   margin-bottom: 1.5rem;
 }
@@ -111,15 +107,15 @@ pre {
   background-color: var(--light-bg);
   color: var(--head-color);
   padding: 10px;
-  line-height: 1.5;
   box-sizing: border-box;
   overflow-x: auto;
   white-space: pre;
+  line-height: 1.375;
 }
 
 code {
   font-family: "JetBrains Mono", monospace;
-  color: var(--head-color);
+  color: var(--mono-color);
 }
 
 p code,

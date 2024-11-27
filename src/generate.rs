@@ -1,17 +1,17 @@
 use pulldown_cmark::{html, Parser};
 use std::{fmt::Display, fs, io, path::Path};
 
-const HEADER: &str = include_str!("../template/header.txt");
-const FOOTER: &str = include_str!("../template/footer.txt");
+const HEADER: &str = include_str!("../layout/header.html");
+const FOOTER: &str = include_str!("../layout/footer.html");
 
 fn markdown_to_html<P: AsRef<Path>>(input_path: P) -> io::Result<String> {
-    let markdown = fs::read_to_string(input_path)?;
-    let parser = Parser::new(&markdown);
-    let mut html = String::new();
+    let markdown_content = fs::read_to_string(input_path)?;
+    let mut html_content = String::new();
 
-    html::push_html(&mut html, parser);
+    let parser = Parser::new(&markdown_content);
+    html::push_html(&mut html_content, parser);
 
-    Ok(html)
+    Ok(html_content)
 }
 
 fn process_articles<P>(input_dir: P, output_dir: P) -> io::Result<String>
@@ -67,7 +67,5 @@ where
 
     let index_output = format!("./{output_dir}/index.html");
     let html_page = format!("{}\n{}\n{}", HEADER, index_html, FOOTER);
-    fs::write(index_output, &html_page)?;
-
-    Ok(())
+    fs::write(index_output, &html_page)
 }
