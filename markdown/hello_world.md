@@ -1,3 +1,10 @@
+# Hello, World
+
+---
+
+Syntax highlighting using `syntect`
+
+```rust
 mod generate;
 use std::io;
 
@@ -10,3 +17,18 @@ fn main() -> io::Result<()> {
 
     Ok(())
 }
+```
+
+```c
+#include <stdio.h>
+
+int main() {
+    printf("Hello, World!\n");
+    return 0;
+}
+```
+
+```haskell
+main :: IO ()
+main = putStrLn "Hello, World!"
+```

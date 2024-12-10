@@ -1,0 +1,126 @@
+/* Tokyonight Theme for Syntect */
+
+/* Syntax Highlighting Scopes */
+.comment {
+  color: #565f89; /* Comments */
+  font-style: italic;
+}
+
+.string {
+  color: #9ece6a; /* Strings, CSS class names */
+}
+
+.keyword {
+  color: #f7768e; /* Keywords, HTML elements, Regex group symbol, CSS units, Terminal Red */
+}
+
+.constant.numeric,
+.constant.language {
+  color: #ff9e64; /* Number and Boolean constants, Language support constants */
+}
+
+.variable.parameter {
+  color: #cfc9c2; /* Parameters inside functions (semantic highlighting only) */
+}
+
+.property {
+  color: #7dcfff; /* Object properties, Markdown code, Terminal Cyan */
+}
+
+.object.key {
+  color: #73daca; /* Object literal keys, Markdown links, Terminal Green */
+}
+
+.function {
+  color: #7aa2f7; /* Function names, CSS property names, Terminal Blue */
+}
+
+.function.parameter {
+  color: #e0af68; /* Function parameters, Regex character sets, Terminal Yellow */
+}
+
+.punctuation,
+.bracket,
+.delimiter {
+  color: #c0caf5; /* White */
+}
+
+.language.function {
+  color: #2ac3de; /* Language support functions, CSS HTML elements */
+}
+
+.control.keyword,
+.storage.type {
+  color: #bb9af7; /* Control Keywords, Storage Types, Regex operators, HTML Attributes, Terminal Magenta */
+}
+
+.variable {
+  color: #c0caf5; /* Variables, Class names, Terminal White */
+}
+
+.regex.string {
+  color: #b4f9f8; /* Regex literal strings */
+}
+
+.regex.quantifier,
+.markdown.heading {
+  color: #7dcfff; /* Regex quantifiers, Markdown headings */
+}
+
+.markdown.text,
+.html.text {
+  color: #9aa5ce; /* Markdown text, HTML text */
+}
+
+.error {
+  color: #f7768e; /* Errors in red */
+  background-color: #414868; /* Terminal Black */
+}
+
+.highlight {
+  background-color: #414868; /* Slight highlight for active lines */
+}
+
+/* Terminal Colors */
+.terminal.black {
+  color: #414868;
+}
+
+.terminal.red {
+  color: #f7768e;
+}
+
+.terminal.green {
+  color: #73daca;
+}
+
+.terminal.yellow {
+  color: #e0af68;
+}
+
+.terminal.blue {
+  color: #7aa2f7;
+}
+
+.terminal.magenta {
+  color: #bb9af7;
+}
+
+.terminal.cyan {
+  color: #7dcfff;
+}
+
+.terminal.white {
+  color: #c0caf5;
+}
+
+/* Selection Highlight */
+::selection {
+  background-color: #3d59a1; /* Muted blue for selection */
+  color: #ffffff;
+}
+
+/* Cursor Color */
+pre {
+  caret-color: #c0caf5;
+}

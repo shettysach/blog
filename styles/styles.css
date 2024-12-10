@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;600&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap");
+@import url("./tokyonight.css");
 
 :root {
   --light-bg: #24283b;
@@ -9,7 +10,7 @@
   --link-color: #7aa2f7;
   --head-color: #7dcfff;
   --mono-color: #2ac3de;
-  --horizontal-gap: 15rem;
+  --horizontal-gap: 20%;
 }
 
 body {
@@ -105,7 +106,6 @@ p {
 pre {
   font-family: "JetBrains Mono", monospace;
   background-color: var(--light-bg);
-  color: var(--head-color);
   padding: 10px;
   box-sizing: border-box;
   overflow-x: auto;
@@ -115,7 +115,7 @@ pre {
 
 code {
   font-family: "JetBrains Mono", monospace;
-  color: var(--mono-color);
+  color: var(--head-color);
 }
 
 p code,

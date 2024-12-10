@@ -1,17 +1,20 @@
-use pulldown_cmark::{html, Parser};
+use comrak::{markdown_to_html_with_plugins, plugins, Options, Plugins};
 use std::{fmt::Display, fs, io, path::Path};
 
 const HEADER: &str = include_str!("../layout/header.html");
 const FOOTER: &str = include_str!("../layout/footer.html");
 
-fn markdown_to_html<P: AsRef<Path>>(input_path: P) -> io::Result<String> {
-    let markdown_content = fs::read_to_string(input_path)?;
-    let mut html_content = String::new();
+fn md_to_html(markdown: &str) -> String {
+    let mut opts = Options::default();
+    opts.extension.underline = true;
+    opts.extension.math_dollars = true;
+    opts.extension.math_code = true;
 
-    let parser = Parser::new(&markdown_content);
-    html::push_html(&mut html_content, parser);
+    let adapter = plugins::syntect::SyntectAdapterBuilder::new().css().build();
+    let mut plugs = Plugins::default();
+    plugs.render.codefence_syntax_highlighter = Some(&adapter);
 
-    Ok(html_content)
+    markdown_to_html_with_plugins(markdown, &opts, &plugs)
 }
 
 fn process_articles<P>(input_dir: P, output_dir: P) -> io::Result<String>
@@ -28,7 +31,8 @@ where
             (is_markdown && is_not_index).then_some(article_path)
         })
         .map(|article_path| {
-            let html = markdown_to_html(&article_path)?;
+            let file_string = fs::read_to_string(&article_path)?;
+            let html = md_to_html(&file_string);
             let html_page = format!("{}\n{}\n{}", HEADER, html, FOOTER);
 
             let article_name = article_path.file_stem().unwrap().to_string_lossy();
@@ -50,22 +54,32 @@ where
     ))
 }
 
-pub(crate) fn static_pages<P>(input_dir: P, styles_path: P, output_dir: P) -> io::Result<()>
+pub(crate) fn static_pages<P>(input_dir: P, styles_dir: P, output_dir: P) -> io::Result<()>
 where
     P: AsRef<Path> + Display + Copy,
 {
     fs::create_dir_all(output_dir)?;
 
     let index_path = format!("./{input_dir}/index.md");
-    let mut index_html = markdown_to_html(index_path)?;
+    let file_string = fs::read_to_string(&index_path)?;
+    let mut index_html = md_to_html(&file_string);
 
     let articles_list = process_articles(input_dir, output_dir)?;
     index_html.push_str(&articles_list);
 
-    let styles_output = format!("./{output_dir}/styles.css");
-    fs::copy(styles_path, &styles_output)?;
+    for entry in fs::read_dir(styles_dir)? {
+        let entry = entry?;
+        let path = entry.path();
+        if path.is_file() {
+            let file_name = path.file_name().unwrap().to_str().unwrap();
+            let destination = output_dir.as_ref().join(file_name);
+            fs::copy(&path, destination)?;
+        }
+    }
 
     let index_output = format!("./{output_dir}/index.html");
     let html_page = format!("{}\n{}\n{}", HEADER, index_html, FOOTER);
-    fs::write(index_output, &html_page)
+    fs::write(index_output, &html_page)?;
+
+    Ok(())
 }
