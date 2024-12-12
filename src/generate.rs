@@ -1,20 +1,29 @@
 use comrak::{markdown_to_html_with_plugins, plugins, Options, Plugins};
+use pulldown_latex::{push_mathml, Parser, Storage};
 use std::{fmt::Display, fs, io, path::Path};
 
 const HEADER: &str = include_str!("../layout/header.html");
 const FOOTER: &str = include_str!("../layout/footer.html");
 
-fn md_to_html(markdown: &str) -> String {
+fn convert_to_html(markdown: &str) -> io::Result<String> {
     let mut opts = Options::default();
     opts.extension.underline = true;
-    opts.extension.math_dollars = true;
-    opts.extension.math_code = true;
 
-    let adapter = plugins::syntect::SyntectAdapterBuilder::new().css().build();
     let mut plugs = Plugins::default();
+    let adapter = plugins::syntect::SyntectAdapterBuilder::new().css().build();
     plugs.render.codefence_syntax_highlighter = Some(&adapter);
 
-    markdown_to_html_with_plugins(markdown, &opts, &plugs)
+    Ok(markdown_to_html_with_plugins(markdown, &opts, &plugs))
+}
+
+fn convert_to_mathml(latex: &str) -> io::Result<String> {
+    let storage = Storage::new();
+    let parser = Parser::new(latex, &storage);
+    let mut mathml = String::new();
+    let config = Default::default();
+
+    push_mathml(&mut mathml, parser, config)?;
+    Ok(mathml)
 }
 
 fn process_articles<P>(input_dir: P, output_dir: P) -> io::Result<String>
@@ -31,8 +40,8 @@ where
             (is_markdown && is_not_index).then_some(article_path)
         })
         .map(|article_path| {
-            let file_string = fs::read_to_string(&article_path)?;
-            let html = md_to_html(&file_string);
+            let article_contents = fs::read_to_string(&article_path)?;
+            let html = convert_to_html(&article_contents)?;
             let html_page = format!("{}\n{}\n{}", HEADER, html, FOOTER);
 
             let article_name = article_path.file_stem().unwrap().to_string_lossy();
@@ -60,13 +69,6 @@ where
 {
     fs::create_dir_all(output_dir)?;
 
-    let index_path = format!("./{input_dir}/index.md");
-    let file_string = fs::read_to_string(&index_path)?;
-    let mut index_html = md_to_html(&file_string);
-
-    let articles_list = process_articles(input_dir, output_dir)?;
-    index_html.push_str(&articles_list);
-
     for entry in fs::read_dir(styles_dir)? {
         let entry = entry?;
         let path = entry.path();
@@ -76,6 +78,13 @@ where
             fs::copy(&path, destination)?;
         }
     }
+
+    let index_path = format!("./{input_dir}/index.md");
+    let file_string = fs::read_to_string(&index_path)?;
+    let mut index_html = convert_to_html(&file_string)?;
+
+    let articles_list = process_articles(input_dir, output_dir)?;
+    index_html.push_str(&articles_list);
 
     let index_output = format!("./{output_dir}/index.html");
     let html_page = format!("{}\n{}\n{}", HEADER, index_html, FOOTER);

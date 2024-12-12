@@ -1,126 +1,291 @@
-/* Tokyonight Theme for Syntect */
+:root {
+  --terminal-red: #f7768e;
+  --number-boolean-constants: #ff9e64;
+  --function-parameters: #e0af68;
+  --parameters-inside-functions: #cfc9c2;
+  --strings-css-class-names: #9ece6a;
+  --object-literal-keys: #73daca;
+  --regex-literal-strings: #b4f9f8;
+  --language-support-functions: #2ac3de;
+  --object-properties: #7dcfff;
+  --function-names: #7aa2f7;
+  --control-keywords: #bb9af7;
+  --variables-class-names: #c0caf5;
+  --editor-foreground: #a9b1d6;
+  --markdown-html-text: #9aa5ce;
+  --comments: #565f89;
+  --terminal-black: #414868;
+  --editor-background-storm: #24283b;
+  --editor-background-night: #1a1b26;
+}
 
-/* Syntax Highlighting Scopes */
-.comment {
-  color: #565f89; /* Comments */
+.code {
+  color: var(--variables-class-names);
+  background-color: var(--editor-background-night);
+}
+
+.comment,
+.meta.documentation {
+  color: var(--comments);
   font-style: italic;
 }
 
 .string {
-  color: #9ece6a; /* Strings, CSS class names */
+  color: var(--strings-css-class-names);
 }
 
-.keyword {
-  color: #f7768e; /* Keywords, HTML elements, Regex group symbol, CSS units, Terminal Red */
+.string.regexp {
+  color: var(--object-literal-keys);
 }
 
-.constant.numeric,
-.constant.language {
-  color: #ff9e64; /* Number and Boolean constants, Language support constants */
+.constant.character.escape {
+  color: var(--terminal-red);
 }
 
-.variable.parameter {
-  color: #cfc9c2; /* Parameters inside functions (semantic highlighting only) */
-}
-
-.property {
-  color: #7dcfff; /* Object properties, Markdown code, Terminal Cyan */
-}
-
-.object.key {
-  color: #73daca; /* Object literal keys, Markdown links, Terminal Green */
-}
-
-.function {
-  color: #7aa2f7; /* Function names, CSS property names, Terminal Blue */
-}
-
-.function.parameter {
-  color: #e0af68; /* Function parameters, Regex character sets, Terminal Yellow */
-}
-
-.punctuation,
-.bracket,
-.delimiter {
-  color: #c0caf5; /* White */
-}
-
-.language.function {
-  color: #2ac3de; /* Language support functions, CSS HTML elements */
-}
-
-.control.keyword,
-.storage.type {
-  color: #bb9af7; /* Control Keywords, Storage Types, Regex operators, HTML Attributes, Terminal Magenta */
+.constant.numeric {
+  color: var(--number-boolean-constants);
 }
 
 .variable {
-  color: #c0caf5; /* Variables, Class names, Terminal White */
+  color: var(--variables-class-names);
 }
 
-.regex.string {
-  color: #b4f9f8; /* Regex literal strings */
+.variable.parameter {
+  color: var(--function-parameters);
 }
 
-.regex.quantifier,
-.markdown.heading {
-  color: #7dcfff; /* Regex quantifiers, Markdown headings */
+.variable.function {
+  color: var(--function-names);
 }
 
-.markdown.text,
-.html.text {
-  color: #9aa5ce; /* Markdown text, HTML text */
+.variable.language {
+  color: var(--control-keywords);
 }
 
-.error {
-  color: #f7768e; /* Errors in red */
-  background-color: #414868; /* Terminal Black */
+.keyword {
+  color: var(--control-keywords);
 }
 
-.highlight {
-  background-color: #414868; /* Slight highlight for active lines */
+.meta.import,
+.keyword,
+.keyword.control.import,
+.keyword.control.import.from,
+.keyword.other.import,
+.keyword.control.at-rule.include,
+.keyword.control.at-rule.import {
+  color: var(--function-parameters);
 }
 
-/* Terminal Colors */
-.terminal.black {
-  color: #414868;
+.meta.path,
+.keyword.operator {
+  color: var(--object-properties);
 }
 
-.terminal.red {
-  color: #f7768e;
+.storage.type {
+  color: var(--control-keywords);
 }
 
-.terminal.green {
-  color: #73daca;
+.storage.modifier {
+  color: var(--object-properties);
 }
 
-.terminal.yellow {
-  color: #e0af68;
+.keyword.control.class,
+.entity.name,
+.entity.name.class,
+.entity.name.type.class {
+  color: var(--function-names);
 }
 
-.terminal.blue {
-  color: #7aa2f7;
+.entity.other.inherited-class {
+  color: var(--object-literal-keys);
 }
 
-.terminal.magenta {
-  color: #bb9af7;
+.entity.other.attribute-name {
+  color: var(--object-properties);
 }
 
-.terminal.cyan {
-  color: #7dcfff;
+.support,
+.support.type,
+.support.class {
+  color: var(--control-keywords);
 }
 
-.terminal.white {
-  color: #c0caf5;
+.entity.name.function {
+  color: var(--function-names);
 }
 
-/* Selection Highlight */
-::selection {
-  background-color: #3d59a1; /* Muted blue for selection */
-  color: #ffffff;
+.punctuation.definition.variable {
+  color: var(--variables-class-names);
 }
 
-/* Cursor Color */
-pre {
-  caret-color: #c0caf5;
+.constant,
+.constant.language,
+.meta.preprocessor {
+  color: var(--number-boolean-constants);
+}
+
+.entity.name.section {
+  color: var(--function-names);
+}
+
+.support.function.construct,
+.keyword.other {
+  color: var(--terminal-red);
+}
+
+.constant.character,
+.constant.other {
+  color: var(--number-boolean-constants);
+}
+
+.entity.name.tag {
+  color: var(--object-literal-keys);
+}
+
+.punctuation.definition.tag.html,
+.punctuation.definition.tag.begin,
+.punctuation.definition.tag.end {
+  color: var(--function-names);
+}
+
+.support.function {
+  color: var(--function-names);
+}
+
+.punctuation.terminator,
+.punctuation.separator {
+  color: var(--object-properties);
+}
+
+.punctuation.separator.continuation {
+  color: var(--terminal-red);
+}
+
+.support.type.exception {
+  color: var(--function-parameters);
+}
+
+.keyword.other.special-method {
+  color: var(--terminal-red);
+}
+
+.invalid {
+  background-color: var(--terminal-red);
+}
+
+.punctuation.definition.string,
+.string.quoted.double,
+.string.quoted.single {
+  color: var(--strings-css-class-names);
+}
+
+.punctuation.definition.string.begin,
+.punctuation.definition.string.end {
+  color: var(--object-literal-keys);
+}
+
+.meta.brace.square,
+.punctuation.section.brackets {
+  color: var(--variables-class-names);
+}
+
+.meta.brace.round,
+.meta.brace.curly,
+.punctuation.section,
+.punctuation.section.block,
+.punctuation.definition.parameters,
+.punctuation.definition.begin,
+.punctuation.definition.end,
+.punctuation.section.group {
+  color: var(--editor-foreground);
+}
+
+.support.constant.color {
+  color: var(--function-names);
+}
+
+.entity.name.tag.css,
+.entity.name.tag.scss {
+  color: var(--function-names);
+}
+
+.entity.other.attribute-name.class {
+  color: var(--object-properties);
+}
+
+.entity.other.attribute-name.id {
+  color: var(--object-literal-keys);
+}
+
+.markup.deleted {
+  color: var(--terminal-red);
+}
+
+.markup.inserted {
+  color: var(--strings-css-class-names);
+}
+
+.markup.changed {
+  color: var(--function-parameters);
+}
+
+.markup.heading,
+.punctuation.definition.heading.markdown {
+  color: var(--function-names);
+}
+
+.markup.quote {
+  color: var(--object-properties);
+}
+
+.markup.italic {
+  font-style: italic;
+}
+
+.markup.bold {
+  font-weight: bold;
+}
+
+.markup.underline.link.markdown,
+.meta.link.reference .constant.other.reference.link.markdown {
+  color: var(--strings-css-class-names);
+}
+
+.constant.other.reference.link.markdown {
+  color: var(--number-boolean-constants);
+}
+
+.meta.diff,
+.meta.diff.header {
+  color: var(--comments);
+}
+
+.meta.generic {
+  color: var(--language-support-functions);
+}
+
+.meta.diff.range {
+  color: var(--function-names);
+}
+
+.markup.deleted.git_gutter {
+  color: var(--terminal-red);
+}
+
+.markup.inserted.git_gutter {
+  color: var(--strings-css-class-names);
+}
+
+.markup.changed.git_gutter {
+  color: var(--function-parameters);
+}
+
+.variable.other.readwrite.js,
+.variable.other.object.js,
+.variable.other.constant.js {
+  color: var(--variables-class-names);
+}
+
+.language-console {
+  color: var(--object-properties);
 }

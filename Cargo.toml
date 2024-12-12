@@ -5,3 +5,4 @@ edition = "2021"
 
 [dependencies]
 comrak = { version = "0.31.0", features = ["syntect"], default-features = false }
+pulldown-latex = "0.7.1"
