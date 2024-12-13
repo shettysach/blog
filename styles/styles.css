@@ -2,7 +2,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;600&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap");
 @import url("https://cdn.jsdelivr.net/gh/carloskiki/pulldown-latex@latest/styles.min.css");
-@import url("https://cdn.jsdelivr.net/gh/carloskiki/pulldown-latex@latest/font/");
 @import url("./tokyonight.css");
 
 :root {
@@ -55,11 +54,7 @@ header nav {
   display: flex;
   gap: 2rem;
   align-items: center;
-
   background: var(--light-bg);
-  /*background: linear-gradient(to right, #bb9af7, #2ac3de);*/
-  /*-webkit-background-clip: text;*/
-  /*-webkit-text-fill-color: transparent;*/
 }
 
 header nav ul {
@@ -100,7 +95,7 @@ p {
 pre {
   font-family: "JetBrains Mono", monospace;
   background-color: var(--light-bg);
-  padding: 10px;
+  padding: 0.75rem 0.75rem;
   box-sizing: border-box;
   overflow-x: auto;
   white-space: pre;
@@ -113,11 +108,7 @@ code {
 
 math {
   font-size: 110%;
-  padding: 10px;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  padding: 1rem 1rem;
 }
 
 p code,

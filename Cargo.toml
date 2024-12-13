@@ -4,7 +4,6 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-# comrak = { version = "0.31.0", features = ["syntect"], default-features = false }
 pulldown-cmark = "0.12.2"
 pulldown-latex = "0.7.1"
 syntect = "5.2.0"
