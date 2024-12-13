@@ -1,4 +1,5 @@
 mod generate;
+mod syntex;
 use std::io;
 
 fn main() -> io::Result<()> {

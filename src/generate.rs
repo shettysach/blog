@@ -1,21 +1,25 @@
-use comrak::{markdown_to_html_with_plugins, plugins, Options, Plugins};
+use crate::syntex::PulldownHighlighter;
+use pulldown_cmark::{html, Parser};
 use std::{fmt::Display, fs, io, path::Path};
 
 const HEADER: &str = include_str!("../layout/header.html");
 const FOOTER: &str = include_str!("../layout/footer.html");
 
-fn convert_to_html(markdown: &str) -> io::Result<String> {
-    let mut opts = Options::default();
-    opts.extension.underline = true;
+fn convert_to_html(markdown: &str, syntax_hl: &PulldownHighlighter) -> io::Result<String> {
+    let events = Parser::new(markdown);
+    let events = syntax_hl.highlight(events);
 
-    let mut plugs = Plugins::default();
-    let adapter = plugins::syntect::SyntectAdapterBuilder::new().css().build();
-    plugs.render.codefence_syntax_highlighter = Some(&adapter);
+    let mut html_content = String::new();
+    html::push_html(&mut html_content, events.into_iter());
 
-    Ok(markdown_to_html_with_plugins(markdown, &opts, &plugs))
+    Ok(html_content)
 }
 
-fn process_articles<P>(input_dir: P, output_dir: P) -> io::Result<String>
+fn process_articles<P>(
+    input_dir: P,
+    output_dir: P,
+    syntax_hl: &PulldownHighlighter,
+) -> io::Result<String>
 where
     P: AsRef<Path> + Display,
 {
@@ -30,7 +34,7 @@ where
         })
         .map(|article_path| {
             let article_contents = fs::read_to_string(&article_path)?;
-            let html = convert_to_html(&article_contents)?;
+            let html = convert_to_html(&article_contents, syntax_hl)?;
             let html_page = format!("{}\n{}\n{}", HEADER, html, FOOTER);
 
             let article_name = article_path.file_stem().unwrap().to_string_lossy();
@@ -68,11 +72,13 @@ where
         }
     }
 
+    let syntax_highlighter = PulldownHighlighter::new();
+
     let index_path = format!("./{input_dir}/index.md");
     let file_string = fs::read_to_string(&index_path)?;
-    let mut index_html = convert_to_html(&file_string)?;
+    let mut index_html = convert_to_html(&file_string, &syntax_highlighter)?;
 
-    let articles_list = process_articles(input_dir, output_dir)?;
+    let articles_list = process_articles(input_dir, output_dir, &syntax_highlighter)?;
     index_html.push_str(&articles_list);
 
     let index_output = format!("./{output_dir}/index.html");

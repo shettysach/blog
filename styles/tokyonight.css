@@ -67,7 +67,6 @@
 }
 
 .meta.import,
-.keyword,
 .keyword.control.import,
 .keyword.control.import.from,
 .keyword.other.import,
@@ -82,6 +81,10 @@
 }
 
 .storage.type {
+  color: var(--language-support-functions);
+}
+
+.storage.type.function {
   color: var(--control-keywords);
 }
 

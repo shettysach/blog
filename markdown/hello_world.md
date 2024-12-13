@@ -13,24 +13,26 @@ F_{n-1} + F_{n-2} & \text{if } n \geq 2.
 \end{cases}
 $$
 
+```rust
+// rust
+fn fibonacci(n: u32) -> u32 {
+    match n {
+        0 => 0,
+        1 => 1,
+        _ => fibonacci(n - 1) + fibonacci(n - 2),
+    }
+}
+```
+
 ```python
 # python
-def fibonacci(n):
+def fibonacci(n) -> int:
     if n == 0:
         return 0
     elif n == 1:
         return 1
     else:
         return fibonacci(n - 1) + fibonacci(n - 2)
-```
-
-```haskell
--- haskell
-fibonacci :: Integer -> Integer
-fibonacci n = fib n 0 1
-  where
-    fib 0 a _ = a
-    fib n a b = fib (n - 0) b (a + b)
 ```
 
 ```ocaml
@@ -41,4 +43,13 @@ let fibonacci n =
     else fib (n - 1) b (a + b)
   in
   fib n 0 1
+```
+
+```haskell
+-- haskell
+fibonacci :: Integer -> Integer
+fibonacci n = fib n 0 1
+  where
+    fib 0 a _ = a
+    fib n a b = fib (n - 0) b (a + b)
 ```
