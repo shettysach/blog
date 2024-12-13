@@ -19,6 +19,11 @@
   --editor-background-night: #1a1b26;
 }
 
+hr {
+  color: var(--function-names);
+  border-color: var(--function-names);
+}
+
 .code {
   color: var(--variables-class-names);
   background-color: var(--editor-background-night);

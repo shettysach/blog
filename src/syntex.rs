@@ -1,9 +1,17 @@
 // Copyright (C) 2023 Enrico Guiraud
 // This code is modified from highlight-pulldown
 // https://gitlab.com/eguiraud/highlight-pulldown
-//
+
+use pulldown_cmark::{CodeBlockKind, CowStr, Event, Tag, TagEnd};
+use pulldown_latex::{config::DisplayMode, mathml::push_mathml, Parser, RenderConfig, Storage};
+use std::io;
+use syntect::{
+    html::{ClassStyle, ClassedHTMLGenerator},
+    parsing::SyntaxSet,
+};
+
 // Modifications -
-// 1. Added Latex to MathML, using the crate,
+// 1. Added LaTeX to MathML, using the crate,
 // `pulldown_latex` by `carloskiki`.
 // 2. Uses ClassedHTMLGenerator to generate
 // syntax highlighting with CSS classes,
@@ -13,33 +21,31 @@
 // 3. Updated dependencies to make it
 // compatible with the latest versions.
 
-use pulldown_cmark::{CodeBlockKind, CowStr, Event, Tag, TagEnd};
-use pulldown_latex::{mathml::push_mathml, Parser, Storage};
-use syntect::{
-    html::{ClassStyle, ClassedHTMLGenerator},
-    parsing::SyntaxSet,
-};
-
-pub struct PulldownHighlighter {
-    syntaxset: SyntaxSet,
+pub struct SynTex {
+    syntax_set: SyntaxSet,
 }
 
-impl PulldownHighlighter {
-    pub fn new() -> PulldownHighlighter {
-        PulldownHighlighter {
-            syntaxset: SyntaxSet::load_defaults_newlines(),
+impl SynTex {
+    pub fn new() -> SynTex {
+        SynTex {
+            syntax_set: SyntaxSet::load_defaults_newlines(),
         }
     }
 
-    // TODO: better error handling
-    pub fn highlight<'a, It>(&self, events: It) -> Vec<Event<'a>>
+    pub fn highlight<'a, It>(&self, events: It) -> io::Result<Vec<Event<'a>>>
     where
         It: Iterator<Item = Event<'a>>,
     {
         let mut is_latex = false;
         let mut in_code_block = false;
 
-        let mut syntax = self.syntaxset.find_syntax_plain_text();
+        let mut syntax = self.syntax_set.find_syntax_plain_text();
+        let mut storage = Storage::new();
+        let config = RenderConfig::<'_> {
+            display_mode: DisplayMode::Block,
+            xml: true,
+            ..Default::default()
+        };
 
         let mut inside_text = String::new();
         let mut out_events = Vec::new();
@@ -49,8 +55,11 @@ impl PulldownHighlighter {
                 Event::Start(Tag::CodeBlock(kind)) => {
                     match kind {
                         CodeBlockKind::Fenced(CowStr::Borrowed("math")) => is_latex = true,
-                        CodeBlockKind::Fenced(lang) => {
-                            syntax = self.syntaxset.find_syntax_by_token(&lang).unwrap_or(syntax)
+                        CodeBlockKind::Fenced(language) => {
+                            syntax = self
+                                .syntax_set
+                                .find_syntax_by_token(&language)
+                                .unwrap_or(syntax)
                         }
                         CodeBlockKind::Indented => {}
                     }
@@ -58,27 +67,26 @@ impl PulldownHighlighter {
                 }
                 Event::End(TagEnd::CodeBlock) => {
                     if !in_code_block {
-                        panic!("this should never happen");
+                        return Err(io::Error::new(
+                            io::ErrorKind::Other,
+                            "Code block has not been closed correctly.",
+                        ));
                     }
 
-                    if is_latex {
-                        let storage = Storage::new();
+                    let push_event = if is_latex {
                         let parser = Parser::new(&inside_text, &storage);
-                        let config = Default::default();
 
                         let mut mathml = String::new();
                         push_mathml(&mut mathml, parser, config).unwrap();
 
-                        let mathml = format!(
-                            "<math xmlns=\"http://www.w3.org/1998/Math/MathML\">{mathml}</math>"
-                        );
+                        storage.reset();
+                        is_latex = false;
 
-                        out_events.push(Event::Html(CowStr::from(mathml)));
-                        is_latex = false
+                        CowStr::from(mathml)
                     } else {
                         let mut class_generator = ClassedHTMLGenerator::new_with_class_style(
                             syntax,
-                            &self.syntaxset,
+                            &self.syntax_set,
                             ClassStyle::Spaced,
                         );
 
@@ -89,11 +97,12 @@ impl PulldownHighlighter {
                         }
 
                         let html = class_generator.finalize();
-                        let html = format!("<pre>{html}</pre>");
-                        let html = CowStr::from(html);
-                        out_events.push(Event::Html(html));
-                    }
+                        let html = format!("<pre><code>{html}</code></pre>");
 
+                        CowStr::from(html)
+                    };
+
+                    out_events.push(Event::Html(push_event));
                     inside_text.clear();
                     in_code_block = false;
                 }
@@ -110,6 +119,6 @@ impl PulldownHighlighter {
             }
         }
 
-        out_events
+        Ok(out_events)
     }
 }

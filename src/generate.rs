@@ -1,25 +1,21 @@
-use crate::syntex::PulldownHighlighter;
+use crate::syntex::SynTex;
 use pulldown_cmark::{html, Parser};
 use std::{fmt::Display, fs, io, path::Path};
 
 const HEADER: &str = include_str!("../layout/header.html");
 const FOOTER: &str = include_str!("../layout/footer.html");
 
-fn convert_to_html(markdown: &str, syntax_hl: &PulldownHighlighter) -> io::Result<String> {
+fn convert_to_html(markdown: &str, syn_tex: &SynTex) -> io::Result<String> {
     let events = Parser::new(markdown);
-    let events = syntax_hl.highlight(events);
+    let events = syn_tex.highlight(events)?.into_iter();
 
-    let mut html_content = String::new();
-    html::push_html(&mut html_content, events.into_iter());
+    let mut html_content = String::with_capacity(markdown.len() * 2);
+    html::push_html(&mut html_content, events);
 
     Ok(html_content)
 }
 
-fn process_articles<P>(
-    input_dir: P,
-    output_dir: P,
-    syntax_hl: &PulldownHighlighter,
-) -> io::Result<String>
+fn process_articles<P>(input_dir: P, output_dir: P, syn_tex: &SynTex) -> io::Result<String>
 where
     P: AsRef<Path> + Display,
 {
@@ -33,14 +29,13 @@ where
             (is_markdown && is_not_index).then_some(article_path)
         })
         .map(|article_path| {
-            let article_contents = fs::read_to_string(&article_path)?;
-            let html = convert_to_html(&article_contents, syntax_hl)?;
-            let html_page = format!("{}\n{}\n{}", HEADER, html, FOOTER);
-
             let article_name = article_path.file_stem().unwrap().to_string_lossy();
-            let output_file = format!("{}/{}.html", output_dir, article_name);
+            let article_contents = fs::read_to_string(&article_path)?;
 
-            fs::write(&output_file, &html_page)?;
+            let html_contents = convert_to_html(&article_contents, syn_tex)?;
+            let html_page = format!("{}\n{}\n{}", HEADER, html_contents, FOOTER);
+            let output_path = format!("{}/{}.html", output_dir, article_name);
+            fs::write(&output_path, &html_page)?;
 
             Ok(format!(
                 "<li><a href=\"./{}.html\">{}</a></li>",
@@ -72,7 +67,7 @@ where
         }
     }
 
-    let syntax_highlighter = PulldownHighlighter::new();
+    let syntax_highlighter = SynTex::new();
 
     let index_path = format!("./{input_dir}/index.md");
     let file_string = fs::read_to_string(&index_path)?;

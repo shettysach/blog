@@ -1,9 +1,11 @@
-# Hello, World
+# Fibonacci
 
 ---
 
-- Syntax highlighting using [`syntect`](https://github.com/trishume/syntect) by `trishume`.
+In mathematics, the **Fibonacci sequence** is a sequence in which each number is the sum of the two numbers that precede it. Numbers that are part of the sequence are known as Fibonacci numbers.
+
 - LaTeX to MathML using [`pulldown_latex`](https://github.com/trishume/syntect) by `carloskiki`.
+- Syntax highlighting using [`syntect`](https://github.com/trishume/syntect) by `trishume`.
 
 ## Head Recursive Fibonacci
 
