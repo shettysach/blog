@@ -19,6 +19,10 @@
   --editor-background-night: #1a1b26;
 }
 
+math {
+  color: var(--object-literal-keys);
+}
+
 .code {
   color: var(--variables-class-names);
   background-color: var(--editor-background-night);
@@ -289,6 +293,6 @@
   color: var(--variables-class-names);
 }
 
-.language-console {
+.text {
   color: var(--object-properties);
 }

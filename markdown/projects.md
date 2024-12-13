@@ -8,7 +8,7 @@ These are some of my personal projects.
 
 [[repo]](https://github.com/shettysach/veNum)
 
-```console
+```
                __
 __   _____  /\ \ \_   _ _ __ ___
 \ \ / / _ \/  \/ / | | | '_ ` _ \
@@ -38,7 +38,7 @@ __   _____  /\ \ \_   _ _ __ ___
 
 [[repo]](https://github.com/shettysach/ferrograd)
 
-```console
+```
    ___                               _
   |  _|___ ___ ___ ___ ___ ___ ___ _| |
   |  _| -_|  _|  _| . | . |  _| .'| . |
@@ -69,7 +69,7 @@ __   _____  /\ \ \_   _ _ __ ___
 
 [[repo]](https://github.com/shettysach/CandleMist)
 
-```console
+```
                      (
                      )\
    ___              ((_)    __  __ _    _
@@ -130,7 +130,7 @@ __   _____  /\ \ \_   _ _ __ ___
 [[repo]](https://github.com/shettysach/Termfolio)
 [[page]](https://shettysach.github.io/Termfolio)
 
-```console
+```
  _____________  __  ___________  __   ________
 /_  __/ __/ _ \/  |/  / __/ __ \/ /  /  _/ __ \
  / / / _// , _/ /|_/ / _// /_/ / /___/ // /_/ /

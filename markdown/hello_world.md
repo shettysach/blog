@@ -3,15 +3,19 @@
 ---
 
 - Syntax highlighting using [`syntect`](https://github.com/trishume/syntect) by `trishume`.
+- LaTeX to MathML using [`pulldown_latex`](https://github.com/trishume/syntect) by `carloskiki`.
 
-$$
-F_n =
+## Head Recursive Fibonacci
+
+```math
+F_{\text{head}}(n) =
 \begin{cases}
 0 & \text{if } n = 0, \\
 1 & \text{if } n = 1, \\
-F_{n-1} + F_{n-2} & \text{if } n \geq 2.
+F_{\text{head}}(n-1) +
+F_{\text{head}}(n-2) & \text{if } n \geq 2.
 \end{cases}
-$$
+```
 
 ```rust
 // rust
@@ -33,6 +37,16 @@ def fibonacci(n) -> int:
         return 1
     else:
         return fibonacci(n - 1) + fibonacci(n - 2)
+```
+
+## Tail Recursive Fibonacci
+
+```math
+F_{\text{tail}}(n, a, b) =
+\begin{cases}
+a & \text{if } n = 0, \\
+F_{\text{tail}}(n-1, b, a+b) & \text{if } n > 0.
+\end{cases}
 ```
 
 ```ocaml

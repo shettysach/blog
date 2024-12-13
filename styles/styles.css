@@ -1,6 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;600&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap");
+@import url("https://cdn.jsdelivr.net/gh/carloskiki/pulldown-latex@latest/styles.min.css");
+@import url("https://cdn.jsdelivr.net/gh/carloskiki/pulldown-latex@latest/font/");
 @import url("./tokyonight.css");
 
 :root {
@@ -47,14 +49,6 @@ header {
   position: sticky;
   z-index: 1000;
   font-size: 1.25rem;
-}
-
-@media (max-width: 768px) {
-  header,
-  main {
-    padding: 1rem 1rem;
-    font-size: 1rem;
-  }
 }
 
 header nav {
@@ -117,6 +111,15 @@ code {
   font-family: "JetBrains Mono", monospace;
 }
 
+math {
+  font-size: 110%;
+  padding: 10px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 p code,
 span code {
   white-space: nowrap;
@@ -148,4 +151,16 @@ ol ul {
 
 li {
   padding-left: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  header,
+  main {
+    padding: 1rem 1rem;
+    font-size: 1rem;
+  }
+
+  math {
+    font-size: 100%;
+  }
 }
