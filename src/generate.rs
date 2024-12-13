@@ -1,5 +1,4 @@
 use comrak::{markdown_to_html_with_plugins, plugins, Options, Plugins};
-use pulldown_latex::{push_mathml, Parser, Storage};
 use std::{fmt::Display, fs, io, path::Path};
 
 const HEADER: &str = include_str!("../layout/header.html");
@@ -14,16 +13,6 @@ fn convert_to_html(markdown: &str) -> io::Result<String> {
     plugs.render.codefence_syntax_highlighter = Some(&adapter);
 
     Ok(markdown_to_html_with_plugins(markdown, &opts, &plugs))
-}
-
-fn convert_to_mathml(latex: &str) -> io::Result<String> {
-    let storage = Storage::new();
-    let parser = Parser::new(latex, &storage);
-    let mut mathml = String::new();
-    let config = Default::default();
-
-    push_mathml(&mut mathml, parser, config)?;
-    Ok(mathml)
 }
 
 fn process_articles<P>(input_dir: P, output_dir: P) -> io::Result<String>

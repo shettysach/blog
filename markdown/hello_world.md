@@ -5,31 +5,13 @@
 - Syntax highlighting using [`syntect`](https://github.com/trishume/syntect) by `trishume`.
 
 $$
-fibonacci(n) =
-\left\{
-\begin{array}{ll}
+F_n =
+\begin{cases}
 0 & \text{if } n = 0, \\
 1 & \text{if } n = 1, \\
-fibonacci(n-1) + fibonacci(n-2) & \text{if } n > 1.
-\end{array}
-\right.
+F_{n-1} + F_{n-2} & \text{if } n \geq 2.
+\end{cases}
 $$
-
-```rust
-// rust
-mod generate;
-use std::io;
-
-fn main() -> io::Result<()> {
-    let markdown_dir = "markdown";
-    let styles_dir = "styles";
-    let output_dir = "_site";
-
-    generate::static_pages(markdown_dir, styles_dir, output_dir)?;
-
-    Ok(())
-}
-```
 
 ```python
 # python
