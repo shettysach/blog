@@ -21,18 +21,24 @@ use syntect::{
 // 3. Updated dependencies to make it
 // compatible with the latest versions.
 
-pub struct SynTex {
+pub struct SynTex<'a> {
     syntax_set: SyntaxSet,
+    render_config: RenderConfig<'a>,
 }
 
-impl SynTex {
-    pub fn new() -> SynTex {
+impl<'a> SynTex<'a> {
+    pub fn new() -> SynTex<'a> {
         SynTex {
             syntax_set: SyntaxSet::load_defaults_newlines(),
+            render_config: RenderConfig::<'a> {
+                display_mode: DisplayMode::Block,
+                xml: true,
+                ..Default::default()
+            },
         }
     }
 
-    pub fn highlight<'a, It>(&self, events: It) -> io::Result<Vec<Event<'a>>>
+    pub fn highlight<It>(&self, events: It) -> io::Result<Vec<Event<'a>>>
     where
         It: Iterator<Item = Event<'a>>,
     {
@@ -41,11 +47,6 @@ impl SynTex {
 
         let mut syntax = self.syntax_set.find_syntax_plain_text();
         let mut storage = Storage::new();
-        let config = RenderConfig::<'_> {
-            display_mode: DisplayMode::Block,
-            xml: true,
-            ..Default::default()
-        };
 
         let mut inside_text = String::new();
         let mut out_events = Vec::new();
@@ -53,17 +54,18 @@ impl SynTex {
         for event in events {
             match event {
                 Event::Start(Tag::CodeBlock(kind)) => {
+                    in_code_block = true;
+
                     match kind {
                         CodeBlockKind::Fenced(CowStr::Borrowed("math")) => is_latex = true,
-                        CodeBlockKind::Fenced(language) => {
+                        CodeBlockKind::Fenced(lang) => {
                             syntax = self
                                 .syntax_set
-                                .find_syntax_by_token(&language)
+                                .find_syntax_by_token(&lang)
                                 .unwrap_or(syntax)
                         }
                         CodeBlockKind::Indented => {}
                     }
-                    in_code_block = true;
                 }
                 Event::End(TagEnd::CodeBlock) => {
                     if !in_code_block {
@@ -73,16 +75,17 @@ impl SynTex {
                         ));
                     }
 
-                    let push_event = if is_latex {
-                        let parser = Parser::new(&inside_text, &storage);
+                    in_code_block = false;
 
+                    let out_event = if is_latex {
+                        let parser = Parser::new(&inside_text, &storage);
                         let mut mathml = String::new();
-                        push_mathml(&mut mathml, parser, config).unwrap();
+                        push_mathml(&mut mathml, parser, self.render_config)?;
 
                         storage.reset();
                         is_latex = false;
 
-                        CowStr::from(mathml)
+                        mathml
                     } else {
                         let mut class_generator = ClassedHTMLGenerator::new_with_class_style(
                             syntax,
@@ -99,12 +102,13 @@ impl SynTex {
                         let html = class_generator.finalize();
                         let html = format!("<pre><code>{html}</code></pre>");
 
-                        CowStr::from(html)
+                        html
                     };
 
-                    out_events.push(Event::Html(push_event));
                     inside_text.clear();
-                    in_code_block = false;
+
+                    let out_event = Event::Html(CowStr::from(out_event));
+                    out_events.push(out_event);
                 }
                 Event::Text(t) => {
                     if in_code_block {
@@ -113,9 +117,7 @@ impl SynTex {
                         out_events.push(Event::Text(t));
                     }
                 }
-                _ => {
-                    out_events.push(event);
-                }
+                _ => out_events.push(event),
             }
         }
 

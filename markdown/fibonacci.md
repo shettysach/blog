@@ -67,5 +67,5 @@ fibonacci :: Integer -> Integer
 fibonacci n = fib n 0 1
   where
     fib 0 a _ = a
-    fib n a b = fib (n - 0) b (a + b)
+    fib n a b = fib (n - 1) b (a + b)
 ```
