@@ -2,14 +2,14 @@
 
 ---
 
-In mathematics, the **Fibonacci sequence** is a sequence in which each number is the sum of the two numbers that precede it. Numbers that are part of the sequence are known as Fibonacci numbers.
+In mathematics, the **Fibonacci sequence** is a sequence in which each number is the sum of the two numbers that precede it. Numbers that are part of the sequence are known as Fibonacci numbers. In the following text, the $n^{th}$ Fibonacci number is represented by $F(n)$.
 
 - LaTeX to MathML using [`pulldown_latex`](https://github.com/trishume/syntect) by `carloskiki`.
 - Syntax highlighting using [`syntect`](https://github.com/trishume/syntect) by `trishume`.
 
 ## Head Recursive Fibonacci
 
-```math
+$$
 F_{\text{head}}(n) =
 \begin{cases}
 0 & \text{if } n = 0, \\
@@ -17,7 +17,7 @@ F_{\text{head}}(n) =
 F_{\text{head}}(n-1) +
 F_{\text{head}}(n-2) & \text{if } n \geq 2.
 \end{cases}
-```
+$$
 
 ```rust
 // rust

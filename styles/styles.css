@@ -2,15 +2,28 @@
 @import url("https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;600&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap");
 @import url("https://cdn.jsdelivr.net/gh/carloskiki/pulldown-latex@latest/styles.min.css");
-@import url("./tokyonight.css");
+@import url("./code.css");
 
 :root {
-  --light-bg: #24283b;
-  --dark-bg: #1a1b26;
-  --light-text: #c0caf5;
-  --link-color: #7aa2f7;
-  --head-color: #7dcfff;
-  --mono-color: #2ac3de;
+  --terminal-red: #f7768e;
+  --number-boolean-constants: #ff9e64;
+  --function-parameters: #e0af68;
+  --parameters-inside-functions: #cfc9c2;
+  --strings-css-class-names: #9ece6a;
+  --object-literal-keys: #73daca;
+  --regex-literal-strings: #b4f9f8;
+  --language-support-functions: #2ac3de;
+  --object-properties: #7dcfff;
+  --function-names: #7aa2f7;
+  --control-keywords: #bb9af7;
+  --variables-class-names: #c0caf5;
+  --editor-foreground: #a9b1d6;
+  --markdown-html-text: #9aa5ce;
+  --comments: #565f89;
+  --terminal-black: #414868;
+  --editor-background-storm: #24283b;
+  --editor-background-night: #1a1b26;
+
   --horizontal-gap: 20%;
 }
 
@@ -18,8 +31,8 @@ body {
   font-family: "Work Sans", sans-serif;
   margin: 0;
   padding: 0;
-  background-color: var(--dark-bg);
-  color: var(--light-text);
+  background-color: var(--editor-background-night);
+  color: var(--variables-class-names);
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -32,29 +45,25 @@ main {
   line-height: 1.5;
 }
 
-a {
-  color: var(--link-color);
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
 header {
-  background: var(--light-bg);
-  color: var(--light-text);
+  background: var(--editor-background-storm);
+  color: var(--variables-class-names);
   padding: 2rem var(--horizontal-gap);
   position: sticky;
   z-index: 1000;
   font-size: 1.25rem;
 }
 
+hr {
+  color: var(--function-names);
+  border-color: var(--function-names);
+}
+
 header nav {
   display: flex;
   gap: 2rem;
   align-items: center;
-  background: var(--light-bg);
+  background: var(--editor-background-storm);
 }
 
 header nav ul {
@@ -68,14 +77,9 @@ header nav ul li {
   display: inline;
 }
 
-hr {
-  color: var(--link-color);
-  border-color: var(--link-color);
-}
-
 footer {
-  background: var(--light-bg);
-  color: var(--light-text);
+  background: var(--editor-background-storm);
+  color: var(--variables-class-names);
   text-align: center;
 }
 
@@ -88,17 +92,27 @@ h2,
 h3,
 h4 {
   font-family: "Crimson Pro", serif;
-  color: var(--head-color);
+  color: var(--object-properties);
   margin-bottom: 1rem;
 }
 
+h2,
+h4 {
+  color: var(--control-keywords);
+}
+
+hr {
+  color: var(--function-names);
+  border-color: var(--function-names);
+}
+
 p {
-  color: var(--light-text);
+  color: var(--variables-class-names);
   margin-bottom: 1.5rem;
 }
 
 pre {
-  background-color: var(--light-bg);
+  background-color: var(--editor-background-storm);
   padding: 0.75rem 0.75rem;
   box-sizing: border-box;
   overflow-x: auto;
@@ -108,13 +122,21 @@ pre {
 
 code {
   font-family: "JetBrains Mono", monospace;
+  color: var(--object-properties);
 }
 
 math {
   font-size: 120%;
   margin: 1rem 1rem;
   overflow-x: auto;
+  overflow-y: clip;
   max-width: 100%;
+}
+
+inline math {
+  font-size: 100%;
+  overflow-x: clip;
+  margin: 0;
 }
 
 p code,
@@ -126,7 +148,6 @@ span code {
 pre code {
   white-space: pre;
   display: block;
-  padding: 0;
   background: inherit;
 }
 
@@ -148,6 +169,16 @@ ol ul {
 
 li {
   padding-left: 0.5rem;
+}
+
+a,
+a * {
+  color: var(--function-names);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
 }
 
 @media (max-width: 768px) {

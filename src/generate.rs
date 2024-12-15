@@ -1,15 +1,15 @@
 use crate::syntex::SynTex;
-use pulldown_cmark::{html, Parser};
+use pulldown_cmark::{html, Options, Parser};
 use std::{fmt::Display, fs, io, path::Path};
 
 const HEADER: &str = include_str!("../layout/header.html");
 const FOOTER: &str = include_str!("../layout/footer.html");
 
 fn convert_to_html(markdown: &str, syn_tex: &SynTex) -> io::Result<String> {
-    let events = Parser::new(markdown);
-    let events = syn_tex.highlight(events)?.into_iter();
+    let events = Parser::new_ext(markdown, Options::ENABLE_MATH);
+    let events = syn_tex.process(events)?.into_iter();
 
-    let mut html_content = String::with_capacity(markdown.len() * 2);
+    let mut html_content = String::with_capacity(markdown.len() * 3 / 2);
     html::push_html(&mut html_content, events);
 
     Ok(html_content)

@@ -1,29 +1,3 @@
-:root {
-  --terminal-red: #f7768e;
-  --number-boolean-constants: #ff9e64;
-  --function-parameters: #e0af68;
-  --parameters-inside-functions: #cfc9c2;
-  --strings-css-class-names: #9ece6a;
-  --object-literal-keys: #73daca;
-  --regex-literal-strings: #b4f9f8;
-  --language-support-functions: #2ac3de;
-  --object-properties: #7dcfff;
-  --function-names: #7aa2f7;
-  --control-keywords: #bb9af7;
-  --variables-class-names: #c0caf5;
-  --editor-foreground: #a9b1d6;
-  --markdown-html-text: #9aa5ce;
-  --comments: #565f89;
-  --terminal-black: #414868;
-  --editor-background-storm: #24283b;
-  --editor-background-night: #1a1b26;
-}
-
-hr {
-  color: var(--function-names);
-  border-color: var(--function-names);
-}
-
 .code {
   color: var(--variables-class-names);
   background-color: var(--editor-background-night);
