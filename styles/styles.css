@@ -90,15 +90,24 @@ section {
 h1,
 h2,
 h3,
-h4 {
+h4,
+h5,
+h6 {
   font-family: "Crimson Pro", serif;
   color: var(--object-properties);
   margin-bottom: 1rem;
 }
 
-h2,
-h4 {
+h2, h4, h6 {
   color: var(--control-keywords);
+}
+
+h1 {
+  font-size: 1.75rem;
+}
+
+h3 { 
+  font-size: 1.25rem; 
 }
 
 hr {
@@ -121,7 +130,6 @@ pre {
 
 code {
   font-family: "JetBrains Mono", monospace;
-  color: var(--object-properties);
 }
 
 math {
@@ -174,6 +182,10 @@ a,
 a * {
   color: var(--function-names);
   text-decoration: none;
+}
+
+img {
+    max-width: 100%;
 }
 
 a:hover {

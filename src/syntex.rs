@@ -63,21 +63,17 @@ impl SynTex {
         let mut syntax = plain_text;
 
         let mut storage = Storage::new();
-        let mut code_block_text = String::new();
+        let mut code_block = String::new();
         let mut out_events = Vec::new();
 
         for event in events {
             match event {
-                Event::Text(t) => {
-                    if in_code_block {
-                        code_block_text.push_str(&t);
-                    } else {
-                        out_events.push(Event::Html(t));
-                    }
-                }
+                Event::Text(t) if in_code_block => code_block.push_str(&t),
+                Event::Text(t) => out_events.push(Event::Html(t)),
 
                 Event::Start(Tag::CodeBlock(kind)) => {
                     in_code_block = true;
+
                     match kind {
                         CodeBlockKind::Fenced(lang) if lang.as_ref() == "math" => is_latex = true,
                         CodeBlockKind::Fenced(lang) => {
@@ -92,12 +88,12 @@ impl SynTex {
 
                 Event::End(TagEnd::CodeBlock) => {
                     let out_event = if is_latex {
-                        self.latex_to_mathml(&code_block_text, &mut storage, true)?
+                        self.latex_to_mathml(&code_block, &mut storage, true)?
                     } else {
-                        self.highlight_code(&code_block_text, syntax)?
+                        self.highlight_code(&code_block, syntax)?
                     };
 
-                    code_block_text.clear();
+                    code_block.clear();
                     out_events.push(Event::Html(CowStr::from(out_event)));
 
                     is_latex = false;
@@ -154,6 +150,7 @@ impl SynTex {
                 .parse_html_for_line_which_includes_newline(line)
                 .map_err(|e| io::Error::new(io::ErrorKind::Other, e))?;
         }
+
         let html = class_generator.finalize();
         let html = format!("<pre><code>{html}</code></pre>");
 

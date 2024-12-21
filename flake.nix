@@ -1,9 +1,8 @@
 {
   inputs = {
-    # nixpkgs = { url = "github:NixOS/nixpkgs/nixos-unstable"; };
-    flake-utils = {
-      url = "github:numtide/flake-utils";
-    };
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+
+    flake-utils.url = "github:numtide/flake-utils";
 
     rust-overlay = {
       url = "github:oxalica/rust-overlay";
@@ -33,7 +32,6 @@
         craneLib = (crane.mkLib pkgs).overrideToolchain rustToolchain;
 
         src = ./.;
-
         buildInputs = with pkgs; [ ];
         nativeBuildInputs = with pkgs; [
           clang_15

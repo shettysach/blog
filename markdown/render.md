@@ -1,6 +1,4 @@
-# Internals of the blog
-
-## Rendering equations and highlighted code
+# LaTeX rendering and syntax highlighting
 
 This section explains how the blog renders math and highlights syntax, using only static HTML and CSS.
 The code for this is located in the [`syntex`](https://github.com/shettysach/blog/blob/main/src/syntex.rs)
@@ -10,31 +8,33 @@ module, a portmanteau of "syntax" and "TeX."
 
 ## Math - LaTeX to MathML
 
-LaTeX is a high-quality typesetting system; it includes features designed for the production of technical and scientific documentation. LaTeX is the de facto standard for the communication and publication of scientific documents. LaTeX is available as free software. [[The Latex Project]](https://www.latex-project.org/)
+### LaTeX
 
-### LaTeX representation of 2 x 2 identity matrix
+LaTeX is a high-quality typesetting system; it includes features designed for the production of technical and scientific documentation. LaTeX is the de facto standard for the communication and publication of scientific documents. LaTeX is available as free software. [[The Latex Project]](https://www.latex-project.org/)
 
 ```
 \left[
 \begin{matrix}
-1 & 0\\
-0 & 1
+1 & 0 & 0\\
+0 & 1 & 0\\
+0 & 0 & 1
 \end{matrix}
 \right]
 ```
+_LaTeX representation of 3 x 3 identity matrix_
 
 However, web browsers and standard HTML cannot directly interpret LaTeX syntax. Therefore, this blog converts LaTeX into MathML Core.
+
+### MathML
 
 Mathematical Markup Language (MathML) is an XML-based language for describing mathematical notation.
 MathML Core is a subset with increased implementation details based on rules from LaTeX and the Open Font Format. It is tailored for browsers and designed specifically to work well with other web standards including HTML, CSS, DOM, JavaScript.
 [[MDN Web Docs]](https://developer.mozilla.org/en-US/docs/Web/MathML)
 
-### MathML representation of 2 x 2 identity matrix
-
-```xml
+```html
 <math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
   <mrow>
-    <mo stretchy="true">[</mo>
+    <mo stretchy="true">[ </mo>
     <mtable class="menv-arraylike">
       <mtr>
         <mtd>
@@ -43,6 +43,9 @@ MathML Core is a subset with increased implementation details based on rules fro
         <mtd>
           <mn>0</mn>
         </mtd>
+        <mtd>
+          <mn>0</mn>
+        </mtd>
       </mtr>
       <mtr>
         <mtd>
@@ -51,32 +54,46 @@ MathML Core is a subset with increased implementation details based on rules fro
         <mtd>
           <mn>1</mn>
         </mtd>
+        <mtd>
+          <mn>0</mn>
+        </mtd>
+      </mtr>
+      <mtr>
+        <mtd>
+          <mn>0</mn>
+        </mtd>
+        <mtd>
+          <mn>0</mn>
+        </mtd>
+        <mtd>
+          <mn>1</mn>
+        </mtd>
       </mtr>
     </mtable>
-    <mo stretchy="true">]</mo>
+    <mo stretchy="true"> ]</mo>
   </mrow>
 </math>
 ```
+_MathML representation of 3 x 3 identity matrix_
 
 To convert from LaTeX to MathML, first `pulldown-cmark` events are used to identify math and code sections. When `pulldown-cmark` parses the markdown file, it detects the tags for both inline and block math expressions, as well as code blocks with language identifiers, including math.
-Then, the LaTeX inside these sections, is converted to MathML using the [`pulldown_latex`](https://crates.io/crates/pulldown-latex) crate. The resultant MathML is added to the output events vector.
-
-### Final output for 2 x 2 identity matrix
+Then, the LaTeX inside these sections, is converted to MathML using the [`pulldown_latex`](https://crates.io/crates/pulldown-latex) crate. The resultant MathML is added to the output events vector. Thus, the LaTeX code is rendered.
 
 ```math
 \left[
 \begin{matrix}
-1 & 0\\
-0 & 1
+1 & 0 & 0\\
+0 & 1 & 0\\
+0 & 0 & 1
 \end{matrix}
 \right]
 ```
-
-### Markdown syntax for math sections
+### Syntax for math sections
 
 There are two types of math displays,
 
-- **Inline display** - $F(n)$, written as
+- **Inline display** \
+$F(n)$, written as
 
 ```
 $F(n)$
@@ -134,11 +151,12 @@ like keywords, variables and constants. This enables for syntax highlighting
 through CSS style classes that can be customized. See
 [`code.css`](https://github.com/shettysach/blog/tree/main/styles/code.css).
 
-### Markdown syntax for code sections
+### Syntax for code sections
 
 Similarly, there are two types of code displays,
 
-- **Inline display** - `fibonacci(5)`, written as
+- **Inline display** \
+`fibonacci(5)`, written as
 
 ```
 `fibonacci(5)`

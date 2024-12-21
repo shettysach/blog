@@ -8,13 +8,13 @@ These are some of my personal projects.
 
 [[repo]](https://github.com/shettysach/veNum)
 
-```
+<pre class="ascii">
                __
 __   _____  /\ \ \_   _ _ __ ___
 \ \ / / _ \/  \/ / | | | '_ ` _ \
  \ V /  __/ /\  /| |_| | | | | | |
   \_/ \___\_\ \/  \__,_|_| |_| |_|
-```
+</pre>
 
 - Stands for vectorized N-dimensional numerical arrays.
 - Tensor/Ndarray built from scratch.
@@ -38,13 +38,13 @@ __   _____  /\ \ \_   _ _ __ ___
 
 [[repo]](https://github.com/shettysach/ferrograd)
 
-```
+<pre class="ascii">
    ___                               _
   |  _|___ ___ ___ ___ ___ ___ ___ _| |
   |  _| -_|  _|  _| . | . |  _| .'| . |
   |_| |___|_| |_| |___|_  |_| |__,|___|
                       |___|
-```
+</pre>
 
 - A small scalar autograd engine / Rust library, inspired by Karpathy's `micrograd`, with more features such as implementations of extra activation functions, optimizers, loss criterions, and accuracy metrics.
 - Capable of MNIST classification with an example implemented using the library.
@@ -69,14 +69,14 @@ __   _____  /\ \ \_   _ _ __ ___
 
 [[repo]](https://github.com/shettysach/CandleMist)
 
-```
+<pre class="ascii">
                      (
                      )\
    ___              ((_)    __  __ _    _
   / __|__ _ _ _  __| | |___|  \/  (_)__| |_
  | (__/ _` | ' \/ _` | / -_) |\/| | (_-<  _|
   \___\__,_|_||_\__,_|_\___|_|  |_|_/__/\__|
-```
+</pre>
 
 - A fullstack chatbot built using Rust for both the frontend and the backend.
 - Utilizes quantized Mistral 7B Instruct v0.1 GGUF models.
@@ -99,6 +99,8 @@ __   _____  /\ \ \_   _ _ __ ___
 ## Kannada Handwriting Calculator
 
 [[repo]](https://github.com/shettysach/Kannada-Handwriting-Calculator)
+
+![demo](https://raw.githubusercontent.com/shettysach/Kannada-Handwriting-Calculator/refs/heads/main/assets/Demo.gif)
 
 - A calculator that uses handwritten Kannada digits and operators to calculate the result, using contour detection and CNN/ConvNet/Convolutional Neural Network model prediction.
 - PyTorch is used to create, train and load the state of the neural network model used for predictions.
@@ -130,12 +132,12 @@ __   _____  /\ \ \_   _ _ __ ___
 [[repo]](https://github.com/shettysach/Termfolio)
 [[page]](https://shettysach.github.io/Termfolio)
 
-```
+<pre class="ascii">
  _____________  __  ___________  __   ________
 /_  __/ __/ _ \/  |/  / __/ __ \/ /  /  _/ __ \
  / / / _// , _/ /|_/ / _// /_/ / /___/ // /_/ /
 /_/ /___/_/|_/_/  /_/_/  \____/____/___/\____/
-```
+</pre>
 
 - Terminal style portfolio website, built using the Leptos framework, for Rust WASM.
 - Customizable and configurable using JSON.
