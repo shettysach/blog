@@ -1,8 +1,29 @@
-@import url("https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;600&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap");
-@import url("https://cdn.jsdelivr.net/gh/carloskiki/pulldown-latex@latest/styles.min.css");
-@import url("./code.css");
+@import "./pulldown_latex.css";
+@import "./code.css";
+
+@font-face {
+  font-family: "Work Sans";
+  src: url("./WorkSans-VariableFont_wght.ttf") format("truetype");
+  font-weight: 400 600;
+  font-style: normal;
+  font-display: swap; 
+}
+
+@font-face {
+  font-family: "Crimson Pro";
+  src: url("./CrimsonPro-VariableFont_wght.ttf") format("truetype");
+  font-weight: 400 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("./JetBrainsMono-VariableFont_wght.ttf") format("truetype");
+  font-weight: 400 600;
+  font-style: normal;
+  font-display: swap;
+}
 
 :root {
   --terminal-red: #f7768e;
