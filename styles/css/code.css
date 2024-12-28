@@ -277,7 +277,3 @@
   color: var(--regex-literal-strings);
   font-family: "JetBrains Mono", monospace;
 }
-
-img {
-    max-width: 100%;
-}

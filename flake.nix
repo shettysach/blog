@@ -40,7 +40,7 @@
         ];
 
         commonArgs = {
-          pname = "blogdown";
+          pname = "blog";
           version = "latest";
           strictDeps = true;
           LIBCLANG_PATH = "${pkgs.llvmPackages.libclang.lib}/lib";
@@ -66,7 +66,7 @@
             commonArgs
             // {
               inherit cargoArtifacts;
-              # cargoClippyExtraArgs = "--all-targets";
+              cargoClippyExtraArgs = "--all-targets";
             }
           );
         };
