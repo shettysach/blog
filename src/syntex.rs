@@ -1,4 +1,4 @@
-// This code is modified from highlight-pulldown
+// This code is heavily modified from highlight-pulldown
 // https://gitlab.com/eguiraud/highlight-pulldown
 // Copyright (C) 2023 Enrico Guiraud
 

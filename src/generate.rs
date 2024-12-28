@@ -1,4 +1,4 @@
-use crate::{syntex, utils::copy_dir};
+use crate::{syntex, utils::*};
 use pulldown_cmark::{html, Options, Parser};
 use std::{
     fmt::Display,
@@ -27,32 +27,58 @@ struct Article {
     path: PathBuf,
 }
 
-// TODO: Better path handling
-fn process_articles<P>(input_dir: P, output_dir: P, syntax_set: &SyntaxSet) -> io::Result<String>
+fn process_article<P: AsRef<Path>>(dir_path: &Path, output_base: P) -> io::Result<Article> {
+    let index_path = dir_path.join("index.md");
+    let metadata_path = dir_path.join("metadata.txt");
+
+    if !index_path.exists() || !metadata_path.exists() {
+        return Err(io::Error::new(
+            io::ErrorKind::InvalidData,
+            "Invalid directory name",
+        ));
+    }
+
+    let dir_name = dir_path
+        .file_stem()
+        .and_then(|s| s.to_str())
+        .ok_or_else(|| io::Error::new(io::ErrorKind::InvalidData, "Invalid directory name"))?;
+
+    let output_dir = output_base.as_ref().join(dir_name);
+    fs::create_dir_all(&output_dir)?;
+
+    copy_article_contents(dir_path, &output_dir)?;
+
+    Ok(Article {
+        name: fs::read_to_string(&metadata_path)?,
+        dir: dir_name.to_string(),
+        path: index_path,
+    })
+}
+
+fn list_articles<P>(input_dir: P, output_dir: P, syntax_set: &SyntaxSet) -> io::Result<String>
 where
     P: AsRef<Path> + Display,
 {
-    let article_list = fs::read_dir(input_dir)?
+    let article_list = fs::read_dir(&input_dir)?
         .flatten()
-        .filter_map(|article| {
-            let dir_path = article.path();
-            let index_path = dir_path.join("index.md");
-            let metadata_path = dir_path.join("metadata.txt");
-
-            (index_path.exists() && metadata_path.exists()).then_some(Article {
-                name: std::fs::read_to_string(metadata_path).ok()?,
-                dir: dir_path.file_stem().unwrap().to_str().unwrap().to_string(),
-                path: index_path,
-            })
+        .filter_map(|entry| {
+            entry
+                .path()
+                .is_dir()
+                .then_some(process_article(&entry.path(), &output_dir))
         })
+        .collect::<io::Result<Vec<Article>>>()?;
+
+    let mut sorted_articles = article_list;
+    sorted_articles.sort_by(|a, b| a.dir.cmp(&b.dir));
+
+    let article_list = sorted_articles
+        .into_iter()
         .map(|article| {
             let article_contents = fs::read_to_string(&article.path)?;
-
             let html_contents = convert_to_html(&article_contents, syntax_set)?;
             let html_page = format!("{}\n{}\n{}", HEADER, html_contents, FOOTER);
-
             let output_path = format!("{}/{}", output_dir, article.dir);
-            fs::create_dir_all(&output_path)?;
             fs::write(format!("{output_path}/index.html"), &html_page)?;
 
             Ok(format!(
@@ -74,7 +100,7 @@ pub(crate) fn static_pages<P>(input_dir: P, styles_dir: P, output_dir: P) -> io:
 where
     P: AsRef<Path> + Display + Copy,
 {
-    copy_dir(styles_dir, output_dir)?;
+    copy_directory(styles_dir, output_dir)?;
 
     let syntax_set = SyntaxSet::load_defaults_newlines();
 
@@ -82,7 +108,7 @@ where
     let file_string = fs::read_to_string(&index_path)?;
     let mut index_html = convert_to_html(&file_string, &syntax_set)?;
 
-    let articles_list = process_articles(input_dir, output_dir, &syntax_set)?;
+    let articles_list = list_articles(input_dir, output_dir, &syntax_set)?;
     index_html.push_str(&articles_list);
     let index_page = format!("{}\n{}\n{}", INDEX_HEADER, index_html, FOOTER);
 

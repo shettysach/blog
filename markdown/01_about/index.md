@@ -26,3 +26,5 @@
 ## Current OS
 
 ❄️ NixOS
+  
+  ![img](./desktop.png)
