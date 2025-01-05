@@ -1,1 +1,1 @@
-Rendering this blog
+Rendering math and highlighting code

@@ -1,18 +1,3 @@
-// This code is heavily modified from highlight-pulldown
-// https://gitlab.com/eguiraud/highlight-pulldown
-// Copyright (C) 2023 Enrico Guiraud
-
-// Modifications -
-// 1. Added LaTeX to MathML, using the crate,
-// `pulldown_latex` by `carloskiki`.
-// 2. Uses `syntect`'s ClassedHTMLGenerator to
-// generate syntax highlighting with CSS classes,
-// instead of predefined themes.
-// This enables me to use my own generated
-// CSS file, `code.css`.
-// 3. Updated dependencies to make it
-// compatible with the latest versions.
-
 use pulldown_cmark::{CodeBlockKind, CowStr, Event, Tag, TagEnd};
 use pulldown_latex::{
     config::{DisplayMode, MathStyle},
@@ -88,7 +73,7 @@ where
 
             Event::InlineMath(latex) => {
                 let mathml = latex_to_mathml(&latex, &mut storage, false)?;
-                out_events.push(Event::Html(CowStr::from(mathml)));
+                out_events.push(Event::InlineHtml(CowStr::from(mathml)));
             }
 
             Event::DisplayMath(latex) => {
@@ -107,13 +92,11 @@ fn latex_to_mathml(text: &str, storage: &mut Storage, is_block: bool) -> io::Res
     let parser = Parser::new(text, storage);
     let mut mathml = String::new();
 
-    let mathml = if is_block {
-        push_mathml(&mut mathml, parser, MATH_BLOCK)?;
-        mathml
-    } else {
-        push_mathml(&mut mathml, parser, MATH_INLINE)?;
-        format!("<inline>{mathml}</inline>")
-    };
+    push_mathml(
+        &mut mathml,
+        parser,
+        if is_block { MATH_BLOCK } else { MATH_INLINE },
+    )?;
 
     storage.reset();
     Ok(mathml)

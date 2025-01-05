@@ -25,6 +25,4 @@
 
 ## Current OS
 
-❄️ NixOS
-  
-  ![img](./desktop.png)
+❄️ NixOS [[my config]](https://github.com/shettysach/ice)

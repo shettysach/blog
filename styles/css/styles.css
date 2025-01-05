@@ -154,17 +154,14 @@ code {
 }
 
 math {
-  font-size: 120%;
-  margin: 1rem 1rem;
   overflow-x: auto;
   overflow-y: clip;
   max-width: 100%;
 }
 
-inline math {
-  font-size: 100%;
-  overflow-x: clip;
-  margin: 0;
+math[display="block"] {
+  font-size: 115%;
+  margin: 1rem 1rem;
 }
 
 p code,

@@ -38,10 +38,7 @@ fn process_article<P: AsRef<Path>>(dir_path: &Path, output_base: P) -> io::Resul
         ));
     }
 
-    let dir_name = dir_path
-        .file_stem()
-        .and_then(|s| s.to_str())
-        .ok_or_else(|| io::Error::new(io::ErrorKind::InvalidData, "Invalid directory name"))?;
+    let dir_name = dir_path.file_stem().and_then(|s| s.to_str()).unwrap();
 
     let output_dir = output_base.as_ref().join(dir_name);
     fs::create_dir_all(&output_dir)?;
@@ -78,12 +75,18 @@ where
             let article_contents = fs::read_to_string(&article.path)?;
             let html_contents = convert_to_html(&article_contents, syntax_set)?;
             let html_page = format!("{}\n{}\n{}", HEADER, html_contents, FOOTER);
-            let output_path = format!("{}/{}", output_dir, article.dir);
-            fs::write(format!("{output_path}/index.html"), &html_page)?;
+
+            let output_path = output_dir.as_ref().join(&article.dir);
+            let index_path = output_path.join("index.html");
+
+            fs::write(&index_path, &html_page)?;
+
+            let url_path = Path::new(&article.dir).join("index.html");
 
             Ok(format!(
-                "<li><a href=\"./{}/\">{}</a></li>",
-                article.dir, article.name,
+                "<li><a href=\"./{}\">{}</a></li>",
+                url_path.to_str().unwrap(),
+                article.name,
             ))
         })
         .collect::<io::Result<Vec<String>>>()?
@@ -95,24 +98,23 @@ where
     ))
 }
 
-// TODO: Better path handling
 pub(crate) fn static_pages<P>(input_dir: P, styles_dir: P, output_dir: P) -> io::Result<()>
 where
     P: AsRef<Path> + Display + Copy,
 {
     copy_directory(styles_dir, output_dir)?;
-
     let syntax_set = SyntaxSet::load_defaults_newlines();
 
-    let index_path = format!("./{input_dir}/index.md");
+    let index_path = input_dir.as_ref().join("index.md");
     let file_string = fs::read_to_string(&index_path)?;
     let mut index_html = convert_to_html(&file_string, &syntax_set)?;
 
     let articles_list = list_articles(input_dir, output_dir, &syntax_set)?;
     index_html.push_str(&articles_list);
+
     let index_page = format!("{}\n{}\n{}", INDEX_HEADER, index_html, FOOTER);
 
-    let index_output = format!("./{output_dir}/index.html");
+    let index_output = output_dir.as_ref().join("index.html");
     fs::write(index_output, &index_page)?;
 
     Ok(())
