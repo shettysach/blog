@@ -1,8 +1,8 @@
 This is a simple blog made by converting markdown into static HTML.
 
 - [`pulldown_cmark`](https://crates.io/crates/pulldown-cmark) - Converts markdown to html
-- [`syntect`](https://crates.io/crates/pulldown-cmark) - Provides syntax highlighting
 - [`pulldown_latex`](https://crates.io/crates/pulldown-latex) - LaTeX to MathML
+- [`syntect`](https://crates.io/crates/syntect) - Provides syntax highlighting
 
-You can use `nix build` and `nix run`, if you have the `nix` package manager.
-Enter the devshell using `nix develop`.
+Work in progress.
+More features such as blog structuring and search engine optimization will be added.

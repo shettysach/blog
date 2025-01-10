@@ -69,7 +69,7 @@ main {
 header {
   background: var(--editor-background-storm);
   color: var(--variables-class-names);
-  padding: 2rem var(--horizontal-gap);
+  padding: 1rem var(--horizontal-gap);
   position: sticky;
   z-index: 1000;
   font-size: 1.25rem;

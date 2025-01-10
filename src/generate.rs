@@ -34,7 +34,7 @@ fn process_article<P: AsRef<Path>>(dir_path: &Path, output_base: P) -> io::Resul
     if !index_path.exists() || !metadata_path.exists() {
         return Err(io::Error::new(
             io::ErrorKind::InvalidData,
-            "Invalid directory name",
+            "Incomplete - `index.md` or `metadata` does not exist.",
         ));
     }
 
@@ -56,7 +56,7 @@ fn list_articles<P>(input_dir: P, output_dir: P, syntax_set: &SyntaxSet) -> io::
 where
     P: AsRef<Path> + Display,
 {
-    let article_list = fs::read_dir(&input_dir)?
+    let mut article_list = fs::read_dir(&input_dir)?
         .flatten()
         .filter_map(|entry| {
             entry
@@ -66,10 +66,9 @@ where
         })
         .collect::<io::Result<Vec<Article>>>()?;
 
-    let mut sorted_articles = article_list;
-    sorted_articles.sort_by(|a, b| a.dir.cmp(&b.dir));
+    article_list.sort_unstable_by(|a, b| a.dir.cmp(&b.dir));
 
-    let article_list = sorted_articles
+    let article_list = article_list
         .into_iter()
         .map(|article| {
             let article_contents = fs::read_to_string(&article.path)?;

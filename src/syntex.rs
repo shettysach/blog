@@ -65,10 +65,10 @@ where
                 };
 
                 code_block.clear();
-                out_events.push(Event::Html(CowStr::from(out_event)));
-
                 is_latex = false;
                 in_code_block = false;
+
+                out_events.push(Event::Html(CowStr::from(out_event)));
             }
 
             Event::InlineMath(latex) => {

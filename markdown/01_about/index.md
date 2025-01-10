@@ -1,11 +1,12 @@
-# About
+# About me
 
 ---
 
 ## Current topics of interest
 
 - Deep learning framework internals (JAX, PyTorch Tinygrad)
-- LLMs, Transformers and RAG
+- Transformers and LLMs
+- RAG, Knowledge Graphs
 - Functional programming
 - Compiler internals
 - WASM (WebAssembly)
