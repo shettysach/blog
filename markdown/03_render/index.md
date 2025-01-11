@@ -9,7 +9,7 @@ module, a portmanteau of syntax and TeX.
 ## Rendering math
 
 $$
-\sum_{i=0}^{n} i^3 = \left( \frac{n(n+1)}{2} \right) ^2
+\sum_{i=1}^{n} i^3 = \left( \frac{n(n+1)}{2} \right) ^2
 $$
 
 ### LaTeX
@@ -17,7 +17,7 @@ $$
 LaTeX is a high-quality typesetting system; it includes features designed for the production of technical and scientific documentation. LaTeX is the de facto standard for the communication and publication of scientific documents. LaTeX is available as free software. [[The Latex Project]](https://www.latex-project.org/)
 
 ```
-\sum_{i=0}^{n} i^3 = \left( \frac{n(n+1)}{2} \right) ^2
+\sum_{i=1}^{n} i^3 = \left( \frac{n(n+1)}{2} \right) ^2
 ```
 _LaTeX representation of the above equation_
 
@@ -36,7 +36,7 @@ MathML Core is a subset with increased implementation details based on rules fro
     <mrow>
       <mi>i</mi>
       <mo>=</mo>
-      <mn>0</mn>
+      <mn>1</mn>
     </mrow>
     <mrow>
       <mi>n</mi>
@@ -74,10 +74,10 @@ _MathML representation of the above equation_
 To convert from LaTeX to MathML, `pulldown-cmark` events are used to identify math and code sections. When `pulldown-cmark` parses the markdown file, it detects the tags for both inline and block math expressions, as well as code blocks with `math` as language identifiers.
 Then, the LaTeX inside these sections, is converted to MathML using the [`pulldown_latex`](https://crates.io/crates/pulldown-latex) crate. The resultant MathML is added to the output events vector and the math is rendered. 
 
-Sum of cubes of the first $n$ natural numbers $\mathbf{N}$
+Sum of cubes of the first $n$ natural numbers $\mathbb{N}$
 
 $$
-\sum_{i=0}^{n} i^3 = \left( \frac{n(n+1)}{2} \right) ^2
+\sum_{i=1}^{n} i^3 = \left( \frac{n(n+1)}{2} \right) ^2
 $$
 
 ### Syntax for math sections

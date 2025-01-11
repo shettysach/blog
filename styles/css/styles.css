@@ -75,6 +75,13 @@ header {
   font-size: 1.25rem;
 }
 
+footer {
+  background: var(--editor-background-storm);
+  color: var(--variables-class-names);
+  text-align: center;
+}
+
+
 hr {
   color: var(--function-names);
   border-color: var(--function-names);
@@ -96,12 +103,6 @@ header nav ul {
 
 header nav ul li {
   display: inline;
-}
-
-footer {
-  background: var(--editor-background-storm);
-  color: var(--variables-class-names);
-  text-align: center;
 }
 
 section {

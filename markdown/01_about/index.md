@@ -7,6 +7,7 @@
 - Deep learning framework internals (JAX, PyTorch Tinygrad)
 - Transformers and LLMs
 - RAG, Knowledge Graphs
+- Deep symbolic regression
 - Functional programming
 - Compiler internals
 - WASM (WebAssembly)
