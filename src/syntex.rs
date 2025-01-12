@@ -32,6 +32,7 @@ where
 {
     let mut is_latex = false;
     let mut in_code_block = false;
+    let mut heading_level = 0;
 
     let plain_text = syntax_set.find_syntax_plain_text();
     let mut syntax = plain_text;
@@ -43,7 +44,16 @@ where
     for event in events {
         match event {
             Event::Text(t) if in_code_block => code_block.push_str(&t),
+            Event::Text(t) if heading_level != 0 => {
+                let h_start = anchorize(&t, heading_level);
+                heading_level = 0;
+                out_events.push(Event::Html(CowStr::from(h_start)));
+            }
             Event::Text(t) => out_events.push(Event::Html(t)),
+
+            Event::Start(Tag::Heading { level, .. }) => {
+                heading_level = level as u8;
+            }
 
             Event::Start(Tag::CodeBlock(kind)) => {
                 in_code_block = true;
@@ -120,4 +130,25 @@ fn highlight_code(
     let html = format!("<pre><code>{html}</code></pre>");
 
     Ok(html)
+}
+
+fn anchorize(text: &str, heading_level: u8) -> String {
+    let anchor: String = text
+        .to_lowercase()
+        .chars()
+        .filter_map(|c| {
+            if c.is_alphanumeric() {
+                Some(c)
+            } else if c.is_whitespace() {
+                Some('_')
+            } else {
+                None
+            }
+        })
+        .collect();
+
+    format!(
+        "<h{} id=\"{}\">{} <a href=\"#{}\" class=\"anchor\">¶</a>",
+        heading_level, anchor, text, anchor
+    )
 }

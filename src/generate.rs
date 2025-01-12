@@ -1,4 +1,3 @@
-use crate::{syntex, utils::*};
 use pulldown_cmark::{html, Options, Parser};
 use std::{
     fmt::Display,
@@ -6,6 +5,8 @@ use std::{
     path::{Path, PathBuf},
 };
 use syntect::parsing::SyntaxSet;
+
+use crate::{syntex, utils::*};
 
 const INDEX_HEADER: &str = include_str!("../layout/index_header.html");
 const HEADER: &str = include_str!("../layout/header.html");
@@ -29,7 +30,7 @@ struct Article {
 
 fn process_article<P: AsRef<Path>>(dir_path: &Path, output_base: P) -> io::Result<Article> {
     let index_path = dir_path.join("index.md");
-    let metadata_path = dir_path.join("metadata.txt");
+    let metadata_path = dir_path.join("metadata");
 
     if !index_path.exists() || !metadata_path.exists() {
         return Err(io::Error::new(

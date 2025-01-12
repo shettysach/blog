@@ -13,8 +13,8 @@ where
     for entry in fs::read_dir(&source)? {
         let entry = entry?;
         let file_type = entry.file_type()?;
-
         let src_path = entry.path();
+
         let rel_path = src_path.strip_prefix(source.as_ref()).unwrap();
         let dst_path = destination.as_ref().join(rel_path);
 

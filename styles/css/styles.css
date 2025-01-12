@@ -203,12 +203,26 @@ a * {
   text-decoration: none;
 }
 
+a:hover {
+  text-decoration: underline;
+}
+
 img {
     max-width: 100%;
 }
 
-a:hover {
-  text-decoration: underline;
+.anchor {
+    font-size: 80%;
+    visibility: hidden;
+}
+
+h1:hover .anchor,
+h2:hover .anchor,
+h3:hover .anchor,
+h4:hover .anchor,
+h5:hover .anchor,
+h6:hover .anchor {
+    visibility: visible; 
 }
 
 @media (max-width: 768px) {

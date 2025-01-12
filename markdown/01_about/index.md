@@ -16,8 +16,8 @@
 
 - Rust
 - Python
-- C
 - C++
+- C
 
 ## Languages I am interested in
 

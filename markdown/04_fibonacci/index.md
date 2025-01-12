@@ -1,4 +1,4 @@
-# Fibonacci
+# Fibonacci Sequence
 
 ---
 
@@ -32,7 +32,7 @@ fn fibonacci(n: u32) -> u32 {
 
 ```python
 # python
-def fibonacci(n) -> int:
+def fibonacci(n: int) -> int:
     if n == 0:
         return 0
     elif n == 1:
