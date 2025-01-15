@@ -1,4 +1,4 @@
-# Fibonacci Sequence
+# Fibonacci sequence
 
 ---
 

@@ -10,8 +10,7 @@ where
         fs::create_dir_all(&destination)?;
     }
 
-    for entry in fs::read_dir(&source)? {
-        let entry = entry?;
+    for entry in fs::read_dir(&source)?.flatten() {
         let file_type = entry.file_type()?;
         let src_path = entry.path();
 
@@ -29,8 +28,7 @@ where
 }
 
 pub(crate) fn copy_article_contents<P: AsRef<Path>>(source: P, destination: P) -> io::Result<()> {
-    for entry in fs::read_dir(source)? {
-        let entry = entry?;
+    for entry in fs::read_dir(source)?.flatten() {
         let path = entry.path();
         let file_name = path.file_name().unwrap();
 

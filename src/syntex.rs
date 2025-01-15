@@ -1,29 +1,9 @@
 use pulldown_cmark::{CodeBlockKind, CowStr, Event, Tag, TagEnd};
-use pulldown_latex::{
-    config::{DisplayMode, MathStyle},
-    mathml::push_mathml,
-    Parser, RenderConfig, Storage,
-};
+use pulldown_latex::{config::DisplayMode, mathml::push_mathml, Parser, RenderConfig, Storage};
 use std::io;
 use syntect::{
     html::{ClassStyle, ClassedHTMLGenerator},
     parsing::{SyntaxReference, SyntaxSet},
-};
-
-const MATH_BLOCK: RenderConfig = RenderConfig {
-    display_mode: DisplayMode::Block,
-    math_style: MathStyle::TeX,
-    xml: true,
-    annotation: None,
-    error_color: (255, 255, 255),
-};
-
-const MATH_INLINE: RenderConfig = RenderConfig {
-    display_mode: DisplayMode::Inline,
-    math_style: MathStyle::TeX,
-    xml: true,
-    annotation: None,
-    error_color: (255, 255, 255),
 };
 
 pub fn process<'a, Iter>(events: Iter, syntax_set: &SyntaxSet) -> io::Result<Vec<Event<'a>>>
@@ -43,25 +23,29 @@ where
 
     for event in events {
         match event {
-            Event::Text(t) if in_code_block => code_block.push_str(&t),
-            Event::Text(t) if heading_level != 0 => {
-                let h_start = anchorize(&t, heading_level);
-                heading_level = 0;
-                out_events.push(Event::Html(CowStr::from(h_start)));
+            Event::Text(t) => {
+                if heading_level != 0 {
+                    let heading_start = anchorize(&t, heading_level);
+                    heading_level = 0;
+                    out_events.push(Event::Html(CowStr::from(heading_start)));
+                } else if in_code_block {
+                    code_block.push_str(&t)
+                } else {
+                    out_events.push(Event::Html(t))
+                }
             }
-            Event::Text(t) => out_events.push(Event::Html(t)),
 
-            Event::Start(Tag::Heading { level, .. }) => {
-                heading_level = level as u8;
-            }
-
+            Event::Start(Tag::Heading { level, .. }) => heading_level = level as u8,
             Event::Start(Tag::CodeBlock(kind)) => {
                 in_code_block = true;
 
                 match kind {
-                    CodeBlockKind::Fenced(lang) if lang.as_ref() == "math" => is_latex = true,
                     CodeBlockKind::Fenced(lang) => {
-                        syntax = syntax_set.find_syntax_by_token(&lang).unwrap_or(plain_text)
+                        if lang.as_ref() == "math" {
+                            is_latex = true
+                        } else {
+                            syntax = syntax_set.find_syntax_by_token(&lang).unwrap_or(plain_text)
+                        }
                     }
                     CodeBlockKind::Indented => syntax = plain_text,
                 }
@@ -69,7 +53,7 @@ where
 
             Event::End(TagEnd::CodeBlock) => {
                 let out_event = if is_latex {
-                    latex_to_mathml(&code_block, &mut storage, true)?
+                    latex_to_mathml(&code_block, &mut storage, DisplayMode::Block)?
                 } else {
                     highlight_code(&code_block, syntax, syntax_set)?
                 };
@@ -81,14 +65,14 @@ where
                 out_events.push(Event::Html(CowStr::from(out_event)));
             }
 
-            Event::InlineMath(latex) => {
-                let mathml = latex_to_mathml(&latex, &mut storage, false)?;
-                out_events.push(Event::InlineHtml(CowStr::from(mathml)));
+            Event::DisplayMath(latex) => {
+                let mathml = latex_to_mathml(&latex, &mut storage, DisplayMode::Block)?;
+                out_events.push(Event::Html(CowStr::from(mathml)));
             }
 
-            Event::DisplayMath(latex) => {
-                let mathml = latex_to_mathml(&latex, &mut storage, true)?;
-                out_events.push(Event::Html(CowStr::from(mathml)));
+            Event::InlineMath(latex) => {
+                let mathml = latex_to_mathml(&latex, &mut storage, DisplayMode::Inline)?;
+                out_events.push(Event::InlineHtml(CowStr::from(mathml)));
             }
 
             _ => out_events.push(event),
@@ -98,15 +82,19 @@ where
     Ok(out_events)
 }
 
-fn latex_to_mathml(text: &str, storage: &mut Storage, is_block: bool) -> io::Result<String> {
-    let parser = Parser::new(text, storage);
+fn latex_to_mathml(
+    text: &str,
+    storage: &mut Storage,
+    display_mode: DisplayMode,
+) -> io::Result<String> {
     let mut mathml = String::new();
+    let parser = Parser::new(text, storage);
+    let config = RenderConfig {
+        display_mode,
+        ..Default::default()
+    };
 
-    push_mathml(
-        &mut mathml,
-        parser,
-        if is_block { MATH_BLOCK } else { MATH_INLINE },
-    )?;
+    push_mathml(&mut mathml, parser, config)?;
 
     storage.reset();
     Ok(mathml)
@@ -127,9 +115,7 @@ fn highlight_code(
     }
 
     let html = class_generator.finalize();
-    let html = format!("<pre><code>{html}</code></pre>");
-
-    Ok(html)
+    Ok(format!("<pre><code>{}</code></pre>", html))
 }
 
 fn anchorize(text: &str, heading_level: u8) -> String {

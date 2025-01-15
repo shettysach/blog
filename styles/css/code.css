@@ -270,10 +270,8 @@
 
 .ascii {
   color: var(--object-literal-keys);
-  font-family: "JetBrains Mono", monospace;
 }
 
 .text.plain {
   color: var(--regex-literal-strings);
-  font-family: "JetBrains Mono", monospace;
 }
