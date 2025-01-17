@@ -153,68 +153,15 @@ as implemented in
 [`code.css`](https://github.com/shettysach/blog/tree/main/styles/code.css).
 
 ```html
-<code>
-  <span class="source rust">
-    <span class="meta function rust">
-      <span class="meta function rust"><span class="storage type function rust">fn</span> </span><span class="entity name function rust">sum_of_cubes_lhs</span>
-    </span>
-    <span class="meta function rust">
-      <span class="meta function parameters rust">
-        <span class="punctuation section parameters begin rust">(</span><span class="variable parameter rust">n</span><span class="punctuation separator rust">:</span> <span class="storage type rust">usize</span>
-      </span>
-      <span class="meta function rust">
-        <span class="meta function parameters rust"><span class="punctuation section parameters end rust">)</span></span>
-      </span>
-    </span>
-    <span class="meta function rust">
-      <span class="meta function return-type rust"><span class="punctuation separator rust">-&gt;</span> <span class="storage type rust">usize</span></span>
-    </span>
-    <span class="meta function rust">
-      <span class="meta block rust">
-        <span class="punctuation section block begin rust">{</span>
-        <span class="meta group rust"><span class="punctuation section group begin rust">(</span><span class="constant numeric integer decimal rust">0</span><span class="keyword operator rust">..</span>n</span>
-        <span class="meta group rust"><span class="punctuation section group end rust">)</span></span>.<span class="support function rust">map</span>
-        <span class="meta group rust">
-          <span class="punctuation section group begin rust">(</span>
-          <span class="meta function closure rust">
-            <span class="meta function parameters rust"><span class="punctuation section parameters begin rust">|</span></span>
-          </span>
-          <span class="meta function closure rust">
-            <span class="meta function parameters rust"><span class="variable parameter rust">i</span><span class="punctuation section parameters end rust">|</span></span>
-          </span>
-          <span class="meta function closure rust">i <span class="keyword operator rust">*</span> i <span class="keyword operator rust">*</span> i</span>
-        </span>
-        <span class="meta group rust"><span class="punctuation section group end rust">)</span></span>.<span class="support function rust">sum</span>
-        <span class="meta group rust"><span class="punctuation section group begin rust">(</span></span><span class="meta group rust"><span class="punctuation section group end rust">)</span></span>
-      </span>
-      <span class="meta block rust"><span class="punctuation section block end rust">}</span></span>
-    </span>
+<pre><code><span class="source rust"><span class="meta function rust"><span class="meta function rust"><span class="storage type function rust">fn</span> </span><span class="entity name function rust">sum_of_cubes_lhs</span></span><span class="meta function rust"><span class="meta function parameters rust"><span class="punctuation section parameters begin rust">(</span><span class="variable parameter rust">n</span><span class="punctuation separator rust">:</span> <span class="storage type rust">usize</span></span><span class="meta function rust"><span class="meta function parameters rust"><span class="punctuation section parameters end rust">)</span></span></span></span><span class="meta function rust"> <span class="meta function return-type rust"><span class="punctuation separator rust">-&gt;</span> <span class="storage type rust">usize</span></span> </span><span class="meta function rust"><span class="meta block rust"><span class="punctuation section block begin rust">{</span>
+    <span class="meta group rust"><span class="punctuation section group begin rust">(</span><span class="constant numeric integer decimal rust">0</span><span class="keyword operator rust">..</span><span class="keyword operator rust">=</span>n</span><span class="meta group rust"><span class="punctuation section group end rust">)</span></span>.<span class="support function rust">map</span><span class="meta group rust"><span class="punctuation section group begin rust">(</span><span class="meta function closure rust"><span class="meta function parameters rust"><span class="punctuation section parameters begin rust">|</span></span></span><span class="meta function closure rust"><span class="meta function parameters rust"><span class="variable parameter rust">i</span><span class="punctuation section parameters end rust">|</span></span> </span><span class="meta function closure rust">i <span class="keyword operator rust">*</span> i <span class="keyword operator rust">*</span> i</span></span><span class="meta group rust"><span class="punctuation section group end rust">)</span></span>.<span class="support function rust">sum</span><span class="meta group rust"><span class="punctuation section group begin rust">(</span></span><span class="meta group rust"><span class="punctuation section group end rust">)</span></span>
+</span><span class="meta block rust"><span class="punctuation section block end rust">}</span></span></span>
 
-    <span class="meta function rust">
-      <span class="meta function rust"><span class="storage type function rust">fn</span> </span><span class="entity name function rust">sum_of_cubes_rhs</span>
-    </span>
-    <span class="meta function rust">
-      <span class="meta function parameters rust">
-        <span class="punctuation section parameters begin rust">(</span><span class="variable parameter rust">n</span><span class="punctuation separator rust">:</span> <span class="storage type rust">usize</span>
-      </span>
-      <span class="meta function rust">
-        <span class="meta function parameters rust"><span class="punctuation section parameters end rust">)</span></span>
-      </span>
-    </span>
-    <span class="meta function rust">
-      <span class="meta function return-type rust"><span class="punctuation separator rust">-&gt;</span> <span class="storage type rust">usize</span></span>
-    </span>
-    <span class="meta function rust">
-      <span class="meta block rust">
-        <span class="punctuation section block begin rust">{</span> <span class="storage type rust">let</span> s <span class="keyword operator rust">=</span> n <span class="keyword operator rust">*</span>
-        <span class="meta group rust"><span class="punctuation section group begin rust">(</span>n <span class="keyword operator rust">+</span> <span class="constant numeric integer decimal rust">1</span></span>
-        <span class="meta group rust"><span class="punctuation section group end rust">)</span></span> <span class="keyword operator rust">/</span> <span class="constant numeric integer decimal rust">2</span>
-        <span class="punctuation terminator rust">;</span> s <span class="keyword operator rust">*</span> s
-      </span>
-      <span class="meta block rust"><span class="punctuation section block end rust">}</span></span>
-    </span>
-  </span>
-</code>
+<span class="meta function rust"><span class="meta function rust"><span class="storage type function rust">fn</span> </span><span class="entity name function rust">sum_of_cubes_rhs</span></span><span class="meta function rust"><span class="meta function parameters rust"><span class="punctuation section parameters begin rust">(</span><span class="variable parameter rust">n</span><span class="punctuation separator rust">:</span> <span class="storage type rust">usize</span></span><span class="meta function rust"><span class="meta function parameters rust"><span class="punctuation section parameters end rust">)</span></span></span></span><span class="meta function rust"> <span class="meta function return-type rust"><span class="punctuation separator rust">-&gt;</span> <span class="storage type rust">usize</span></span> </span><span class="meta function rust"><span class="meta block rust"><span class="punctuation section block begin rust">{</span>
+    <span class="storage type rust">let</span> s <span class="keyword operator rust">=</span> n <span class="keyword operator rust">*</span> <span class="meta group rust"><span class="punctuation section group begin rust">(</span>n <span class="keyword operator rust">+</span> <span class="constant numeric integer decimal rust">1</span></span><span class="meta group rust"><span class="punctuation section group end rust">)</span></span> <span class="keyword operator rust">/</span> <span class="constant numeric integer decimal rust">2</span><span class="punctuation terminator rust">;</span>
+    s <span class="keyword operator rust">*</span> s
+</span><span class="meta block rust"><span class="punctuation section block end rust">}</span></span></span>
+</span></code></pre>
 ```
 _Generated HTML with style classes for the above code_
 

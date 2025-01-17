@@ -72,9 +72,9 @@ where
     let article_list = article_list
         .into_iter()
         .map(|article| {
-            let article_contents = fs::read_to_string(&article.path)?;
-            let html_contents = convert_to_html(&article_contents, syntax_set)?;
-            let html_page = format!("{}\n{}\n{}", HEADER, html_contents, FOOTER);
+            let markdown = fs::read_to_string(&article.path)?;
+            let html = convert_to_html(&markdown, syntax_set)?;
+            let html_page = format!("{}\n{}\n{}", HEADER, html, FOOTER);
 
             let output_path = output_dir.as_ref().join(&article.dir);
             let index_path = output_path.join("index.html");

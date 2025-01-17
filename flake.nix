@@ -1,16 +1,16 @@
 {
-  # inputs = {
-  #   nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-  #
-  #   flake-utils.url = "github:numtide/flake-utils";
-  #
-  #   rust-overlay = {
-  #     url = "github:oxalica/rust-overlay";
-  #     inputs.nixpkgs.follows = "nixpkgs";
-  #   };
-  #
-  #   crane.url = "github:ipetkov/crane";
-  # };
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+
+    flake-utils.url = "github:numtide/flake-utils";
+
+    rust-overlay = {
+      url = "github:oxalica/rust-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    crane.url = "github:ipetkov/crane";
+  };
 
   outputs =
     {
@@ -80,7 +80,7 @@
           inputsFrom = [ bin ];
           LIBCLANG_PATH = "${pkgs.llvmPackages.libclang.lib}/lib";
           CARGO_BUILD_RUSTFLAGS = "-C linker=clang -C link-arg=-fuse-ld=${pkgs.mold}/bin/mold";
-          shellHook = "zsh";
+          shellHook = "";
         };
       }
     );

@@ -37,5 +37,6 @@ pub(crate) fn copy_article_contents<P: AsRef<Path>>(source: P, destination: P) -
             fs::copy(&path, &dst_path)?;
         }
     }
+
     Ok(())
 }

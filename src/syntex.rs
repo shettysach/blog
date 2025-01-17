@@ -6,7 +6,7 @@ use syntect::{
     parsing::{SyntaxReference, SyntaxSet},
 };
 
-pub fn process<'a, Iter>(events: Iter, syntax_set: &SyntaxSet) -> io::Result<Vec<Event<'a>>>
+pub(crate) fn process<'a, Iter>(events: Iter, syntax_set: &SyntaxSet) -> io::Result<Vec<Event<'a>>>
 where
     Iter: Iterator<Item = Event<'a>>,
 {
@@ -36,6 +36,7 @@ where
             }
 
             Event::Start(Tag::Heading { level, .. }) => heading_level = level as u8,
+
             Event::Start(Tag::CodeBlock(kind)) => {
                 in_code_block = true;
 
@@ -53,10 +54,10 @@ where
 
             Event::End(TagEnd::CodeBlock) => {
                 let out_event = if is_latex {
-                    latex_to_mathml(&code_block, &mut storage, DisplayMode::Block)?
+                    latex_to_mathml(&code_block, &mut storage, DisplayMode::Block)
                 } else {
-                    highlight_code(&code_block, syntax, syntax_set)?
-                };
+                    highlight_code(&code_block, syntax, syntax_set)
+                }?;
 
                 code_block.clear();
                 is_latex = false;
@@ -95,7 +96,6 @@ fn latex_to_mathml(
     };
 
     push_mathml(&mut mathml, parser, config)?;
-
     storage.reset();
     Ok(mathml)
 }
@@ -134,7 +134,7 @@ fn anchorize(text: &str, heading_level: u8) -> String {
         .collect();
 
     format!(
-        "<h{} id=\"{}\">{} <a href=\"#{}\" class=\"anchor\">¶</a>",
-        heading_level, anchor, text, anchor
+        "<h{} id=\"{}\">{} <a href=\"#{}\" class=\"anchor\">h{}</a>",
+        heading_level, anchor, text, anchor, heading_level
     )
 }

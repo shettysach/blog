@@ -116,20 +116,23 @@ h4,
 h5,
 h6 {
   font-family: "Crimson Pro", serif;
+  font-weight: normal;
   color: var(--object-properties);
   margin-bottom: 1rem;
 }
 
-h2, h4, h6 {
-  color: var(--control-keywords);
+.anchor {
+    font-size: 80%;
+    visibility: hidden;
 }
 
-h1 {
-  font-size: 1.75rem;
-}
-
-h3 { 
-  font-size: 1.25rem; 
+h1:hover .anchor,
+h2:hover .anchor,
+h3:hover .anchor,
+h4:hover .anchor,
+h5:hover .anchor,
+h6:hover .anchor {
+    visibility: visible; 
 }
 
 hr {
@@ -210,20 +213,6 @@ a:hover {
 
 img {
     max-width: 100%;
-}
-
-.anchor {
-    font-size: 80%;
-    visibility: hidden;
-}
-
-h1:hover .anchor,
-h2:hover .anchor,
-h3:hover .anchor,
-h4:hover .anchor,
-h5:hover .anchor,
-h6:hover .anchor {
-    visibility: visible; 
 }
 
 @media (max-width: 768px) {
