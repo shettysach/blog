@@ -43,13 +43,13 @@ def fibonacci(n: int) -> int:
 
 ## Tail Recursive Fibonacci
 
-```math
+$$
 F_{\text{tail}}(n, a, b) =
 \begin{cases}
 a & \text{if } n = 0, \\
 F_{\text{tail}}(n-1, b, a+b) & \text{if } n > 0.
 \end{cases}
-```
+$$
 
 ```ocaml
 (* ocaml *)

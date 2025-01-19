@@ -18,7 +18,7 @@ __   _____  /\ \ \_   _ _ __ ___
 
 - Stands for vectorized N-dimensional numerical arrays.
 - Tensor/Ndarray built from scratch.
-- Work in progress
+> NOTE: Work in progress. Needs refactoring and optimization.
 
 ### Features:
 

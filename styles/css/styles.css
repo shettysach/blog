@@ -181,6 +181,13 @@ pre code {
   background: inherit;
 }
 
+blockquote {
+  background-color: var(--editor-background-storm);
+  border-left: 5px solid var(--object-literal-keys);
+  margin: 1rem 0;
+  padding-left: 1rem;
+}
+
 ul,
 ol {
   list-style-position: outside;
