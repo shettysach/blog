@@ -6,7 +6,7 @@ These are some of my personal projects.
 
 ## veNum
 
-[[repo]](https://github.com/shettysach/veNum)
+[repo](https://github.com/shettysach/veNum)
 
 <pre class="ascii">
                __
@@ -17,7 +17,7 @@ __   _____  /\ \ \_   _ _ __ ___
 </pre>
 
 - Stands for vectorized N-dimensional numerical arrays.
-- Tensor/Ndarray built from scratch.
+- Tensor/ ndarray library.
 > NOTE: Work in progress. Needs refactoring and optimization.
 
 ### Features:
@@ -36,7 +36,7 @@ __   _____  /\ \ \_   _ _ __ ___
 
 ## ferrograd
 
-[[repo]](https://github.com/shettysach/ferrograd)
+[repo](https://github.com/shettysach/ferrograd)
 
 <pre class="ascii">
    ___                               _
@@ -57,7 +57,7 @@ __   _____  /\ \ \_   _ _ __ ___
 - Loss criterions:
   Binary Cross-Entropy, Cross-Entropy, Hinge, MSE/RMSE
 - Activation functions:
-  ReLU, LeakyReLU, Sigmoid, tanh
+  ReLU, LeakyReLU, sigmoid, tanh
 
 ### Languages:
 
@@ -67,7 +67,7 @@ __   _____  /\ \ \_   _ _ __ ___
 
 ## CandleMist
 
-[[repo]](https://github.com/shettysach/CandleMist)
+[repo](https://github.com/shettysach/CandleMist)
 
 <pre class="ascii">
                      (
@@ -98,7 +98,7 @@ __   _____  /\ \ \_   _ _ __ ___
 
 ## Kannada Handwriting Calculator
 
-[[repo]](https://github.com/shettysach/Kannada-Handwriting-Calculator)
+[repo](https://github.com/shettysach/Kannada-Handwriting-Calculator)
 
 ![demo](https://raw.githubusercontent.com/shettysach/Kannada-Handwriting-Calculator/refs/heads/main/assets/Demo.gif)
 
@@ -129,8 +129,8 @@ __   _____  /\ \ \_   _ _ __ ___
 
 ## Termfolio
 
-[[repo]](https://github.com/shettysach/Termfolio)
-[[page]](https://shettysach.github.io/Termfolio)
+[repo](https://github.com/shettysach/Termfolio),
+[page](https://shettysach.github.io/Termfolio)
 
 <pre class="ascii">
  _____________  __  ___________  __   ________

@@ -12,10 +12,8 @@ where
 {
     let plain_text = syntax_set.find_syntax_plain_text();
     let mut syntax = plain_text;
-
     let mut storage = Storage::new();
     let mut code_block = String::new();
-
     let mut in_code_block = false;
 
     events
@@ -26,11 +24,10 @@ where
                     None
                 }
 
-                Event::Text(t) => Some(Event::Html(t)),
+                Event::Text(t) => Some(Event::Html(t)), // NOTE: needed?
 
                 Event::Start(Tag::CodeBlock(kind)) => {
                     in_code_block = true;
-
                     syntax = match kind {
                         CodeBlockKind::Fenced(lang) => {
                             syntax_set.find_syntax_by_token(&lang).unwrap_or(plain_text)
@@ -62,7 +59,7 @@ where
                 _ => Some(event),
             })
         })
-        .filter_map(Result::transpose)
+        .filter_map(|e| e.transpose())
         .collect()
 }
 
