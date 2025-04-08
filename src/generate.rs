@@ -6,14 +6,16 @@ use std::{
 };
 use syntect::parsing::SyntaxSet;
 
-use crate::{syntex, utils::*};
+use crate::{syntex, utils};
 
 const HOME_HEADER: &str = include_str!("../layout/home_header.html");
 const HEADER: &str = include_str!("../layout/header.html");
 const FOOTER: &str = include_str!("../layout/footer.html");
 
 fn convert_to_html(markdown: &str, syntax_set: &SyntaxSet) -> io::Result<String> {
-    let events = Parser::new_ext(markdown, Options::ENABLE_MATH);
+    let options = Options::from_bits(1280).unwrap();
+
+    let events = Parser::new_ext(markdown, options);
     let events = syntex::process(events, syntax_set)?.into_iter();
 
     let mut html_content = String::with_capacity(markdown.len() * 3 / 2);
@@ -44,7 +46,7 @@ fn process_article<P: AsRef<Path>>(dir_path: &Path, output_base: P) -> io::Resul
     let output_dir = output_base.as_ref().join(dir_name);
     fs::create_dir_all(&output_dir)?;
 
-    copy_article_contents(dir_path, &output_dir)?;
+    utils::copy_article_contents(dir_path, &output_dir)?;
 
     Ok(Article {
         name: fs::read_to_string(&metadata_path)?,
@@ -102,7 +104,7 @@ pub(crate) fn static_pages<P>(input_dir: P, styles_dir: P, output_dir: P) -> io:
 where
     P: AsRef<Path> + Display + Copy,
 {
-    copy_directory(styles_dir, output_dir)?;
+    utils::copy_directory(styles_dir, output_dir)?;
     let syntax_set = SyntaxSet::load_defaults_newlines();
 
     let index_path = input_dir.as_ref().join("index.md");
