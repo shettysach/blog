@@ -20,18 +20,3 @@ pub(crate) fn copy_directory(src: &Path, dst: &Path) -> io::Result<()> {
     }
     Ok(())
 }
-
-pub(crate) fn copy_assets(src: &Path, dst: &Path) -> io::Result<()> {
-    for entry in fs::read_dir(src)? {
-        let path = entry?.path();
-
-        if path.extension().is_some_and(|ext| ext == "md") {
-            if let Some(file_name) = path.file_name() {
-                let dst_path = dst.join(file_name);
-                fs::copy(&path, &dst_path)?;
-            }
-        }
-    }
-
-    Ok(())
-}

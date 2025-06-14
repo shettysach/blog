@@ -32,7 +32,7 @@ pub(crate) fn process<'a>(
     let mut captive = String::new();
 
     let mut metadata_init = None;
-    let mut events = Vec::new();
+    let mut events = Vec::new(); // Can't determine length without consuming
 
     for event in parser {
         match event {

@@ -1,5 +1,5 @@
 ---
-title: Demonstration Post
+title: Demo
 subtitle: A post to demonstrate the blog's features.
 tags:
   - demo
