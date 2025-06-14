@@ -1,14 +1,14 @@
 mod generate;
 mod syntex;
 mod utils;
-use std::io;
+use std::path::Path;
 
-fn main() -> io::Result<()> {
-    let markdown_dir = "markdown";
-    let styles_dir = "styles";
-    let output_dir = "_site";
+use anyhow::Result;
 
-    generate::static_pages(markdown_dir, styles_dir, output_dir)?;
+fn main() -> Result<()> {
+    let markdown_dir = Path::new("markdown");
+    let styles_dir = Path::new("styles");
+    let html_dir = Path::new("_site");
 
-    Ok(())
+    generate::static_pages(markdown_dir, styles_dir, html_dir)
 }

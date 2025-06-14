@@ -120,24 +120,11 @@ h6 {
   margin-bottom: 1rem;
 }
 
-.anchor {
-    font-style: italic;
-    visibility: hidden;
-}
-
-h1:hover .anchor,
-h2:hover .anchor,
-h3:hover .anchor,
-h4:hover .anchor,
-h5:hover .anchor,
-h6:hover .anchor {
-    visibility: visible; 
-}
-
 hr {
   color: var(--function-names);
   border-color: var(--function-names);
 }
+
 
 p {
   color: var(--variables-class-names);
@@ -214,6 +201,14 @@ a * {
 
 a:hover {
   text-decoration: underline;
+}
+
+.subt {
+    font-style: italic;
+    font-size: 90%;
+    color: var(--variables-class-names);
+    text-decoration: none;
+    display: inline-block; 
 }
 
 img {

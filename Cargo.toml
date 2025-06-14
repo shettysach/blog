@@ -1,9 +1,13 @@
 [package]
 name = "blog"
 version = "0.1.0"
-edition = "2021"
+edition = "2024"
 
 [dependencies]
-pulldown-cmark = "0.12.2"
+anyhow = "1.0.98"
+itertools = "0.14.0"
+pulldown-cmark = "0.13.0"
 pulldown-latex = "0.7.1"
 syntect = "5.2.0"
+walkdir = "2.5.0"
+yaml-rust2 = "0.10.3"

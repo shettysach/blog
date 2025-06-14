@@ -1,3 +1,12 @@
+---
+title: Rendering math and highlighting code
+subtitle: How the blog renders math and highlights syntax, using only static HTML and CSS.
+tags:
+    - syntax
+    - latex
+    - css
+---
+
 # Rendering math and highlighting code
 
 This section explains how the blog renders math and highlights syntax, using only static HTML and CSS.
@@ -6,7 +15,7 @@ module, a portmanteau of syntax and TeX.
 
 ---
 
-## Rendering math
+## Rendering math { #math }
 
 $$
 \sum_{i=1}^{n} i^3 = \left( \frac{n(n+1)}{2} \right) ^2
@@ -30,49 +39,11 @@ MathML Core is a subset with increased implementation details based on rules fro
 [[MDN Web Docs]](https://developer.mozilla.org/en-US/docs/Web/MathML)
 
 ```html
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
-  <munderover>
-    <mo movablelimits="false">∑</mo>
-    <mrow>
-      <mi>i</mi>
-      <mo>=</mo>
-      <mn>1</mn>
-    </mrow>
-    <mrow>
-      <mi>n</mi>
-    </mrow>
-  </munderover>
-  <msup>
-    <mi>i</mi>
-    <mn>3</mn>
-  </msup>
-  <mo>=</mo>
-  <msup>
-    <mrow>
-      <mo stretchy="true">(</mo>
-      <mfrac>
-        <mrow>
-          <mi>n</mi>
-          <mo symmetric="false" stretchy="false">(</mo>
-          <mi>n</mi>
-          <mo>+</mo>
-          <mn>1</mn>
-          <mo symmetric="false" stretchy="false">)</mo>
-        </mrow>
-        <mrow>
-          <mn>2</mn>
-        </mrow>
-      </mfrac>
-      <mo stretchy="true">)</mo>
-    </mrow>
-    <mn>2</mn>
-  </msup>
-</math>
+<math display="block"><munderover><mo movablelimits="false">∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mrow><mi>n</mi></mrow></munderover><msup><mi>i</mi><mn>3</mn></msup><mo>=</mo><msup><mrow><mo stretchy="true">(</mo><mfrac><mrow><mi>n</mi><mo symmetric="false" stretchy="false">(</mo><mi>n</mi><mo>+</mo><mn>1</mn><mo symmetric="false" stretchy="false">)</mo></mrow><mrow><mn>2</mn></mrow></mfrac><mo stretchy="true">)</mo></mrow><mn>2</mn></msup></math>
 ```
-<figcaption>MathML representation of the above equation</figcaption>
+_MathML representation of the above equation_
 
-To convert from LaTeX to MathML, `pulldown-cmark` events are used to identify math and code sections. When `pulldown-cmark` parses the markdown file, it detects the tags for both inline and block math expressions, as well as code blocks with `math` as language identifiers.
-Then, the LaTeX inside these sections, is converted to MathML using the [`pulldown_latex`](https://crates.io/crates/pulldown-latex) crate. The resultant MathML is added to the output events vector and the math is rendered. 
+To convert from LaTeX to MathML, `pulldown-cmark` events are used to identify math and code sections. When `pulldown-cmark` parses the markdown file, it detects the tags for both inline and block math expressions. Then, the LaTeX inside these sections, is converted to MathML using the [`pulldown_latex`](https://crates.io/crates/pulldown-latex) crate. The resultant MathML is added to the output events vector and the math is rendered. 
 
 Sum of cubes of the first $n$ natural numbers $\mathbb{N}$
 
@@ -84,14 +55,16 @@ $$
 
 There are two types of math displays,
 
-- **Inline display** \
+#### Inline display
+
 $F(n)$, written as
 
   ```
   $F(n)$
   ```
 
-- **Block display**
+#### Block display
+
   $$
   F(n) =
   \begin{cases}
@@ -128,7 +101,7 @@ $F(n)$, written as
     
 ---
 
-## Highlighting code
+## Highlighting code { #code }
 
 ```rust
 fn sum_of_cubes_lhs(n: usize) -> usize {
@@ -174,14 +147,15 @@ If no language identifier is provided, the language is treated as plain text.
 
 Similarly, there are two types of code displays,
 
-- **Inline display** \
+####  Inline display
+
   `fibonacci(5)`, written as
 
   ```
   `fibonacci(5)`
   ```
 
-- **Block display**
+#### Block display
 
   ```rust
   // rust
