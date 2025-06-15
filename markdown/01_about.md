@@ -1,5 +1,10 @@
 ---
 title: About me
+tags:
+  - about
+  - markdown
+  - demo
+  - test
 ---
 
 # About me

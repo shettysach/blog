@@ -1,18 +1,12 @@
 ---
-title: Welcome
+title: Index
 ---
 
-# Welcome
+# Articles
 
----
+Welcome to my blog. Built with 
+[pulldown_cmark](https://crates.io/crates/pulldown-cmark), 
+[pulldown_latex](https://crates.io/crates/pulldown-latex) and
+[syntect](https://crates.io/crates/syntect).
 
-## Intro 
-
-This is a simple blog made using
-
-- [pulldown_cmark](https://crates.io/crates/pulldown-cmark) - Markdown to HTML
-- [pulldown_latex](https://crates.io/crates/pulldown-latex) - LaTeX to MathML
-- [syntect](https://crates.io/crates/syntect) - syntax highlighting
-- [tokyonight](https://github.com/folke/tokyonight.nvim) - colorscheme
-
-> NOTE: Work in progress.
+___

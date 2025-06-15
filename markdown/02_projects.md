@@ -1,5 +1,9 @@
 ---
 title: Projects
+tags:
+  - about
+  - rust
+  - python
 ---
 
 # Projects

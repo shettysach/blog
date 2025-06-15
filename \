@@ -3,7 +3,9 @@ title: Rendering math and highlighting code
 subtitle: How the blog renders math and highlights syntax, using only static HTML and CSS.
 tags:
     - rust
-    - ssg
+    - syntax
+    - latex
+    - static_site_generator
 ---
 
 # Rendering math and highlighting code

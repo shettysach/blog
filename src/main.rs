@@ -10,5 +10,8 @@ fn main() -> Result<()> {
     let styles_dir = Path::new("styles");
     let html_dir = Path::new("_site");
 
-    generate::static_pages(markdown_dir, styles_dir, html_dir)
+    generate::index_page(markdown_dir, html_dir)?;
+    utils::copy_directory(styles_dir, html_dir)?;
+
+    Ok(())
 }

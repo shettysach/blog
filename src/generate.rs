@@ -1,11 +1,10 @@
 use anyhow::{Result, anyhow};
 use pulldown_cmark::{Options, Parser, html};
-use std::{fmt::Write, fs, path::Path};
+use std::{collections::BTreeMap, fmt::Write, fs, path::Path};
 use syntect::parsing::SyntaxSet;
 use walkdir::WalkDir;
 
-use crate::syntex::{Article, Metadata, process};
-use crate::utils;
+use crate::syntex::{Article, Metadata, Syntex};
 
 const HEADER: &str = include_str!("../layout/header.html");
 const FOOTER: &str = include_str!("../layout/footer.html");
@@ -15,14 +14,11 @@ const OPTIONS: Options = Options::empty()
     .union(Options::ENABLE_MATH)
     .union(Options::ENABLE_HEADING_ATTRIBUTES);
 
-fn markdown_to_html<'a>(markdown: &'a str, syntax_set: &'a SyntaxSet) -> Result<Article<'a>> {
-    process(Parser::new_ext(markdown, OPTIONS), syntax_set)
-}
-
-fn render_markdown_file(src: &Path, dst: &Path, syntax_set: &SyntaxSet) -> Result<Metadata> {
+fn render_markdown(src: &Path, dst: &Path, syntax_set: &SyntaxSet) -> Result<Metadata> {
     let markdown = fs::read_to_string(src)?;
-    let Article { events, metadata } =
-        markdown_to_html(&markdown, syntax_set).map_err(|e| anyhow!("{}: {}", e, src.display()))?;
+    let Article { events, metadata } = Parser::new_ext(&markdown, OPTIONS)
+        .process(syntax_set)
+        .map_err(|e| anyhow!("{}: {}", e, src.display()))?;
 
     let mut page = String::with_capacity(markdown.len() * 3 / 2);
     page.push_str(HEADER);
@@ -33,12 +29,21 @@ fn render_markdown_file(src: &Path, dst: &Path, syntax_set: &SyntaxSet) -> Resul
     Ok(metadata)
 }
 
-pub(crate) fn static_pages(markdown_dir: &Path, styles_dir: &Path, html_dir: &Path) -> Result<()> {
+pub(crate) fn index_page(markdown_dir: &Path, html_dir: &Path) -> Result<()> {
     let syntax_set = SyntaxSet::load_defaults_newlines(); // TODO: Lazy/Once init
-    utils::copy_directory(styles_dir, html_dir)?;
 
-    let num_articles = WalkDir::new(markdown_dir).max_depth(1).into_iter().count() - 2;
-    let mut articles = Vec::with_capacity(num_articles);
+    let mut tags_map: BTreeMap<String, Vec<String>> = BTreeMap::new();
+
+    let index_md = fs::read_to_string(markdown_dir.join("index.md"))?;
+    let index_events = Parser::new_ext(&index_md, OPTIONS)
+        .process(&syntax_set)?
+        .events
+        .into_iter();
+
+    let mut index_html = String::from(HEADER);
+    // index_html.push_str(HEADER);
+    html::push_html(&mut index_html, index_events);
+    index_html.push_str("<ul>\n");
 
     for entry in WalkDir::new(markdown_dir)
         .max_depth(2)
@@ -46,47 +51,77 @@ pub(crate) fn static_pages(markdown_dir: &Path, styles_dir: &Path, html_dir: &Pa
         .into_iter()
         .flatten()
     {
-        let path = entry.path();
-        let rel_path = path.strip_prefix(markdown_dir)?;
+        let src_path = entry.path();
+        let rel_path = src_path.strip_prefix(markdown_dir)?;
+        let dst_path = html_dir.join(rel_path);
 
-        if path.is_dir() {
-            fs::create_dir_all(html_dir.join(rel_path))?;
-        } else if path.extension().is_some_and(|ext| ext == "md")
-            && path.file_name().is_some_and(|i| i != "index.md")
+        if src_path.extension().is_some_and(|ext| ext == "md")
+            && src_path.file_name().is_some_and(|i| i != "index.md")
         {
-            let dst_path = html_dir.join(rel_path).with_extension("html");
-            let metadata = render_markdown_file(path, &dst_path, &syntax_set)?;
-            articles.push((rel_path.with_extension("html"), metadata));
+            let dst_path = dst_path.with_extension("html");
+            let Metadata {
+                title,
+                subtitle,
+                tags,
+            } = render_markdown(src_path, &dst_path, &syntax_set)?;
+
+            let link = rel_path.with_extension("html");
+            let mut label = format!(
+                "<h2><a href=\"{}\">{}</a></h2>",
+                link.to_string_lossy(),
+                title
+            );
+            if let Some(ref subtitle) = subtitle {
+                label.push_str(subtitle)
+            }
+
+            // TODO: clean up implementation
+            if let Some(tags) = tags {
+                let label_clone = label.clone(); // NOTE clone
+                if subtitle.is_some() {
+                    writeln!(label, "<br>")?
+                };
+                for tag in tags {
+                    write!(label, "<a href=\"tags.html#{tag}\"><em>{tag}</em></a>, ",)?;
+                    tags_map.entry(tag).or_default().push(label_clone.clone()); // NOTE clone
+                }
+            }
+
+            writeln!(index_html, "<li>{}</li>", label)?;
+        } else if src_path.is_dir() {
+            fs::create_dir_all(dst_path)?; // Create parent directiories
         } else {
-            let dst_path = html_dir.join(rel_path);
-            fs::copy(path, dst_path)?;
+            fs::copy(src_path, dst_path)?; // Copy assets
         }
     }
 
-    let index_md = fs::read_to_string(markdown_dir.join("index.md"))?;
-    let index_events = markdown_to_html(&index_md, &syntax_set)?.events.into_iter();
-
-    let mut index_html = String::new();
-
-    index_html.push_str(HEADER);
-    html::push_html(&mut index_html, index_events);
-    index_html.push_str("\n<h2>Articles</h2>\n<ul>\n");
-    for (link, metadata) in articles.into_iter() {
-        let label = match metadata.subtitle {
-            Some(sub) => format!("{}<br><div class=\"subt\">{sub}</div>", metadata.title),
-            None => metadata.title,
-        };
-        writeln!(
-            index_html,
-            "<li><a href=\"{}\">{}</a></li>",
-            link.to_string_lossy(),
-            label
-        )?;
-    }
-    index_html.push_str("</ul>");
+    index_html.push_str("</ul>\n");
     index_html.push_str(FOOTER);
 
     fs::write(html_dir.join("index.html"), index_html)?;
+    tags_page(tags_map, &html_dir.join("tags.html"))?;
+
+    Ok(())
+}
+
+fn tags_page(tags_map: BTreeMap<String, Vec<String>>, tags_path: &Path) -> Result<()> {
+    let mut article_html = String::from(HEADER);
+    article_html.push_str("<h1>Tags</h1>\n<hr>\n");
+
+    for (tag, labels) in tags_map {
+        writeln!(
+            article_html,
+            "<h2 id=\"{tag}\"><a href=\"#{tag}\"><em>{tag}</em></a></h2>"
+        )?;
+
+        article_html.push_str("<ul>\n");
+        for label in labels {
+            writeln!(article_html, "<li>{}</li>", label)?;
+        }
+        article_html.push_str("</ul>\n");
+    }
+
+    fs::write(tags_path, article_html)?;
 
     Ok(())
 }

@@ -203,14 +203,6 @@ a:hover {
   text-decoration: underline;
 }
 
-.subt {
-    font-style: italic;
-    font-size: 90%;
-    color: var(--variables-class-names);
-    text-decoration: none;
-    display: inline-block; 
-}
-
 img {
     max-width: 100%;
 }

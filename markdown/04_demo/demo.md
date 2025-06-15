@@ -2,10 +2,10 @@
 title: Demo
 subtitle: A post to demonstrate the blog's features.
 tags:
-  - demo
-  - blog
   - markdown
-  - latex
+  - about
+  - demo
+  - test
 ---
 
 # Demonstration
@@ -74,7 +74,7 @@ $$
 
 Code blocks are highlighted using syntax-aware rendering. Specify the language for proper highlighting.
 
-#### Rust Example
+### Rust Example
 
 ```rust
 fn main() {
@@ -82,15 +82,24 @@ fn main() {
 }
 ```
 
-#### Python Example
+### Python Example
 
 ```python
 def greet():
     print("Hello, blog!")
 ```
 
-## Images
+## Links and Images
+
+### Links
+
+[Link to another article](../03_render/render.html)
+
+Written as `[Link to another article](../03_render/render.html)`.
+
+### Image
+
+![dog](./dog.jpg)
 
 Written as `![dog](./dog.jpg)`.
 
-![dog](./dog.jpg)
